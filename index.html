@@ -1,29 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Top CPI Offers</title>
+  <title>Robux Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="background:linear-gradient(135deg,#0d0d0d,#1a1a1a);color:white;text-align:center;font-family:sans-serif;margin:0;overflow-x:hidden;">
 
-<!-- Header -->
-<div style="background:linear-gradient(90deg,#ff1a1a,#00cc66);padding:25px;box-shadow:0 0 20px rgba(255,0,0,0.6);">
-  <h1 style="margin:0;font-size:28px;">🎄 Free Robux Christmas Event 🎁</h1>
+<body style="
+  margin:0;
+  font-family:sans-serif;
+  color:white;
+  background: linear-gradient(135deg,#0a0a0a,#111,#0a0a0a);
+">
+
+<div style="min-height:100vh;padding:15px;text-align:center;">
+
+  <!-- HEADER -->
+  <h1 style="color:#00ffcc;font-size:clamp(20px,6vw,32px);margin-top:10px;">
+    🎮 ROBUX GENERATOR 🎁
+  </h1>
+
+  <p style="color:#ff4d4d;font-weight:bold;">
+    🔥 Live users: <span id="liveCount">1324</span>
+  </p>
+
+  <!-- GENERATOR BOX -->
+  <div style="
+    max-width:400px;
+    margin:auto;
+    background:#111;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(0,255,150,0.3);
+  ">
+
+    <input id="username" placeholder="Enter Roblox Username"
+      style="width:100%;padding:12px;border:none;border-radius:8px;margin-bottom:10px;font-size:16px;">
+
+    <select id="amount"
+      style="width:100%;padding:12px;border:none;border-radius:8px;margin-bottom:10px;font-size:16px;">
+      <option>400 Robux</option>
+      <option>800 Robux</option>
+      <option>1700 Robux</option>
+      <option>4500 Robux</option>
+    </select>
+
+    <button onclick="startGen()" style="
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      background:linear-gradient(90deg,#ff1a1a,#00cc66);
+      color:white;
+      font-weight:bold;
+      font-size:16px;
+      cursor:pointer;
+    ">
+      Generate
+    </button>
+
+    <!-- STATUS -->
+    <div id="status" style="margin-top:15px;font-size:14px;"></div>
+
+    <!-- PROGRESS -->
+    <div style="background:#333;border-radius:10px;margin-top:10px;overflow:hidden;">
+      <div id="bar" style="width:0%;background:#00ff99;padding:6px 0;"></div>
+    </div>
+
+  </div>
+
+  <!-- OFFERS -->
+  <div id="offers" style="max-width:600px;margin:20px auto;"></div>
+
 </div>
 
-<h2 style="margin-top:20px;color:#00ffcc;">Limited Time Holiday Rewards</h2>
-
-<!-- Fake counter -->
-<p style="color:#ff4d4d;font-weight:bold;">🔥 <span id="liveCount">1287</span> users completing offers now</p>
-
-<div id="offers" style="max-width:600px;margin:auto;">Loading...</div>
-
 <script>
-// fake live counter (visual only)
-setInterval(() => {
+
+// fake live counter
+setInterval(()=>{
   let el = document.getElementById("liveCount");
   el.innerText = parseInt(el.innerText) + Math.floor(Math.random()*3);
-}, 3000);
+},3000);
 
+// generator animation
+function startGen(){
+  let user = document.getElementById("username").value;
+  if(!user){
+    alert("Enter username");
+    return;
+  }
+
+  let status = document.getElementById("status");
+  let bar = document.getElementById("bar");
+
+  let steps = [
+    "Connecting to Roblox servers...",
+    "Bypassing security...",
+    "Generating Robux...",
+    "Finalizing..."
+  ];
+
+  let i = 0;
+  let progress = 0;
+
+  let interval = setInterval(()=>{
+    status.innerText = steps[i] || "Done";
+    progress += 25;
+    bar.style.width = progress + "%";
+    i++;
+
+    if(progress >= 100){
+      clearInterval(interval);
+      status.innerHTML = "✅ Human verification required";
+
+      // SHOW OFFERS AFTER GEN
+      loadOffers();
+    }
+  },1000);
+}
+
+
+// ORIGINAL WORKING CODE (UNCHANGED LOGIC)
 async function loadOffers() {
   const res = await fetch('/api/offers');
   const data = await res.json();
@@ -38,40 +134,28 @@ async function loadOffers() {
   data.offers.forEach(o => {
     html += `
       <div style="
-        background:linear-gradient(145deg,#1a1a1a,#262626);
-        border-radius:18px;
-        padding:20px;
-        margin:20px;
-        box-shadow:0 0 20px rgba(0,255,150,0.3), 0 0 20px rgba(255,0,0,0.3);
-        transition:0.3s;
-      " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-        
-        <img src="${o.picture}" width="100" style="border-radius:12px;"><br>
-        
-        <h3 style="margin:10px 0;color:#ffffff;">${o.name_short}</h3>
-
-        <!-- fake progress bar -->
-        <div style="background:#333;border-radius:10px;overflow:hidden;margin:10px 0;">
-          <div style="width:${Math.floor(Math.random()*40+60)}%;background:#00ff99;padding:5px 0;"></div>
-        </div>
-        <small style="color:#ccc;">Almost full – act fast!</small><br><br>
+        background:#1a1a1a;
+        border-radius:12px;
+        padding:15px;
+        margin:10px;
+        box-shadow:0 0 10px rgba(0,255,150,0.3);
+      ">
+        <img src="${o.picture}" style="width:80px;border-radius:10px;"><br>
+        <h3>${o.name_short}</h3>
 
         <a href="${o.link}">
           <button style="
-            background:linear-gradient(90deg,#ff1a1a,#00cc66);
-            color:white;
+            background:#00cc66;
             border:none;
-            padding:12px 25px;
-            border-radius:10px;
-            cursor:pointer;
-            font-size:16px;
+            padding:10px;
+            border-radius:8px;
+            color:white;
             font-weight:bold;
-            box-shadow:0 0 10px rgba(255,0,0,0.5);
+            cursor:pointer;
           ">
-            🎁 Install Now
+            Complete Offer
           </button>
         </a>
-
       </div>
     `;
   });
@@ -79,7 +163,6 @@ async function loadOffers() {
   document.getElementById("offers").innerHTML = html;
 }
 
-loadOffers();
 </script>
 
 </body>
