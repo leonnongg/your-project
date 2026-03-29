@@ -3,10 +3,16 @@
 <head>
   <title>Top CPI Offers</title>
 </head>
-<body style="background:black;color:white;text-align:center;font-family:sans-serif;">
+<body style="background:#0d0d0d;color:white;text-align:center;font-family:sans-serif;margin:0;">
 
-<h1>Complete these tasks</h1>
-<div id="offers">Loading...</div>
+<!-- Header -->
+<div style="background:#ff1a1a;padding:20px;">
+  <h1 style="margin:0;">🎁 Free Robux Offers</h1>
+</div>
+
+<h2 style="margin-top:20px;">Complete these tasks to earn rewards</h2>
+
+<div id="offers" style="max-width:600px;margin:auto;">Loading...</div>
 
 <script>
 async function loadOffers() {
@@ -22,11 +28,28 @@ async function loadOffers() {
 
   data.offers.forEach(o => {
     html += `
-      <div style="border:1px solid #333;padding:20px;margin:20px;">
-        <img src="${o.picture}" width="100"><br>
-        <h3>${o.name_short}</h3>
+      <div style="
+        background:#1a1a1a;
+        border-radius:15px;
+        padding:20px;
+        margin:20px;
+        box-shadow:0 0 10px rgba(255,0,0,0.3);
+      ">
+        <img src="${o.picture}" width="100" style="border-radius:10px;"><br>
+        <h3 style="margin:10px 0;">${o.name_short}</h3>
+        
         <a href="${o.link}">
-          <button>Install</button>
+          <button style="
+            background:#ff1a1a;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:16px;
+          ">
+            Install
+          </button>
         </a>
       </div>
     `;
