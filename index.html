@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Top CPI Offers</title>
+</head>
+<body style="background:black;color:white;text-align:center;font-family:sans-serif;">
+
+<h1>🔥 Top 3 CPI Offers</h1>
+<div id="offers">Loading...</div>
+
+<script>
+async function loadOffers() {
+  const res = await fetch('/api/offers');
+  const data = await res.json();
+
+  if (!data.offers || data.offers.length === 0) {
+    document.getElementById("offers").innerHTML = "No offers available";
+    return;
+  }
+
+  let html = "";
+
+  data.offers.forEach(o => {
+    html += `
+      <div style="border:1px solid #333;padding:20px;margin:20px;">
+        <img src="${o.picture}" width="100"><br>
+        <h3>${o.name_short}</h3>
+        <p>$${o.payout}</p>
+        <a href="${o.link}">
+          <button>Install</button>
+        </a>
+      </div>
+    `;
+  });
+
+  document.getElementById("offers").innerHTML = html;
+}
+
+loadOffers();
+</script>
+
+</body>
+</html>
