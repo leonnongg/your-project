@@ -1,86 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Robux Generator</title>
+  <title>Rewards Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin:0;
+      font-family:sans-serif;
+      color:white;
+      background: radial-gradient(circle at top,#111,#000);
+    }
+
+    .container {
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:15px;
+    }
+
+    .box {
+      width:100%;
+      max-width:380px;
+      background:#0f0f0f;
+      padding:20px;
+      border-radius:16px;
+      box-shadow:0 0 25px rgba(0,255,150,0.15);
+      margin-top:15px;
+    }
+
+    input, select {
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:10px;
+      margin-bottom:12px;
+      font-size:15px;
+      box-sizing:border-box;
+      background:#1a1a1a;
+      color:white;
+    }
+
+    button {
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:12px;
+      background:linear-gradient(90deg,#00cc66,#00ffcc);
+      color:black;
+      font-weight:bold;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    button:hover {
+      transform:scale(1.03);
+      opacity:0.9;
+    }
+
+    .offer {
+      background:#1a1a1a;
+      border-radius:12px;
+      padding:15px;
+      margin:12px 0;
+      text-align:center;
+      transition:0.2s;
+    }
+
+    .offer:hover {
+      transform:translateY(-3px);
+      box-shadow:0 0 15px rgba(0,255,150,0.2);
+    }
+
+    .badge {
+      font-size:12px;
+      opacity:0.7;
+      margin:3px;
+    }
+
+    .progress-wrap {
+      background:#222;
+      border-radius:10px;
+      margin-top:10px;
+      overflow:hidden;
+    }
+
+    #bar {
+      width:0%;
+      background:#00ff99;
+      padding:6px 0;
+      text-align:right;
+      font-size:12px;
+      color:black;
+      font-weight:bold;
+    }
+
+  </style>
 </head>
 
-<body style="
-  margin:0;
-  font-family:sans-serif;
-  color:white;
-  background: radial-gradient(circle at top,#111,#000);
-">
+<body>
 
-<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:15px;">
+<div class="container">
 
   <!-- HEADER -->
   <h1 style="color:#00ffcc;font-size:clamp(22px,6vw,34px);margin:10px 0;">
-    STEAL A BRAINROT PRESENTS V3.8
+    Rewards Hub
   </h1>
 
   <p style="color:#ff4d4d;font-weight:bold;margin:0;">
-      Live users: <span id="liveCount">1342</span>
+    Live users: <span id="liveCount">1342</span>
   </p>
 
+  <!-- TRUST BADGES -->
+  <div style="margin-top:8px;text-align:center;">
+    <span class="badge">🔒 Secure</span>
+    <span class="badge">⚡ Instant Rewards</span>
+    <span class="badge">🌍 Trusted Users</span>
+  </div>
+
   <!-- GENERATOR BOX -->
-  <div style="
-    width:100%;
-    max-width:380px;
-    background:#0f0f0f;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 0 25px rgba(0,255,150,0.2);
-    margin-top:15px;
-  ">
+  <div class="box">
 
-    <input id="username" placeholder="Enter Roblox Username"
-      style="
-        width:100%;
-        padding:14px;
-        border:none;
-        border-radius:10px;
-        margin-bottom:12px;
-        font-size:15px;
-        box-sizing:border-box;
-      ">
+    <input id="username" placeholder="Enter Roblox Username (no spaces)">
 
-    <select id="amount"
-      style="
-        width:100%;
-        padding:14px;
-        border:none;
-        border-radius:10px;
-        margin-bottom:12px;
-        font-size:15px;
-        box-sizing:border-box;
-      ">
+    <select id="amount">
       <option>80 Robux</option>
       <option>140 Robux</option>
       <option>380 Robux</option>
       <option>560 Robux</option>
     </select>
 
-    <button onclick="startGen()" style="
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:12px;
-      background:linear-gradient(90deg,#ff1a1a,#00cc66);
-      color:white;
-      font-weight:bold;
-      font-size:16px;
-      cursor:pointer;
-    ">
-      Generate
-    </button>
+    <button onclick="startGen()">Generate</button>
 
     <!-- STATUS -->
     <div id="status" style="margin-top:15px;font-size:14px;text-align:center;"></div>
 
     <!-- PROGRESS -->
-    <div style="background:#222;border-radius:10px;margin-top:10px;overflow:hidden;">
-      <div id="bar" style="width:0%;background:#00ff99;padding:6px 0;"></div>
+    <div class="progress-wrap">
+      <div id="bar">0%</div>
     </div>
 
   </div>
@@ -105,6 +164,11 @@
 
 <script>
 
+// REMOVE SPACES USERNAME
+document.getElementById("username").addEventListener("input", function() {
+  this.value = this.value.replace(/\s/g, "");
+});
+
 // LIVE COUNTER
 setInterval(()=>{
   let el = document.getElementById("liveCount");
@@ -112,13 +176,13 @@ setInterval(()=>{
 },3000);
 
 // FAKE POPUPS
-const names = ["ShadowXGamer","NoobMasterYT","DarkKnightOP","ProBuilder99","EpicRBLXPlayer","SpeedRunX","XxFireLegendxX","GhostPlayz","UltraNoob123","RBLXKing","ToxicSlayer","PixelWarrior","StealthNinjaX","GamingBeastYT","CrazyBuilderX","SkyBlockPro","SilentSniperX","DragonSlayer99","EliteObbyRunner","TurboGamerX","GlitchMasterYT","NeonRiderX","MegaCraftPro","StormBreakerX","ObbyLegendYT","QuickShotX","FrostByteGamer","BlazeRunnerX","NoScopeKing","InfinityPlayerX"];
+const names = ["Aman***","Rahul***","Sneha***","Adi***","ProGamer***","NoobX***"];
 function showPopup(){
   let p = document.getElementById("popup");
   let name = names[Math.floor(Math.random()*names.length)];
   let amt = [80,140,380][Math.floor(Math.random()*3)];
 
-  p.innerText = `${name} just received ${amt} Robux`;
+  p.innerText = `${name} just earned ${amt} Robux`;
   p.style.display = "block";
 
   setTimeout(()=>{p.style.display="none";},3000);
@@ -128,6 +192,7 @@ setInterval(showPopup,5000);
 // GENERATOR
 function startGen(){
   let user = document.getElementById("username").value;
+
   if(!user){
     alert("Enter username");
     return;
@@ -138,8 +203,8 @@ function startGen(){
 
   let steps = [
     "Connecting...",
-    "Bypassing security...",
-    "Generating Robux...",
+    "Checking username...",
+    "Preparing rewards...",
     "Finalizing..."
   ];
 
@@ -149,19 +214,21 @@ function startGen(){
   let interval = setInterval(()=>{
     status.innerText = steps[i] || "Done";
     progress += 25;
+
     bar.style.width = progress + "%";
+    bar.innerText = progress + "%";
+
     i++;
 
     if(progress >= 100){
       clearInterval(interval);
-      status.innerHTML = "✅ Complete verification to receive Robux";
+      status.innerHTML = "✅ Complete a task below to receive your reward";
       loadOffers();
     }
   },1000);
 }
 
-
-// OFFERS (UNCHANGED CORE)
+// OFFERS
 async function loadOffers() {
   const res = await fetch('/api/offers');
   const data = await res.json();
@@ -175,30 +242,12 @@ async function loadOffers() {
 
   data.offers.forEach(o => {
     html += `
-      <div style="
-        background:#1a1a1a;
-        border-radius:12px;
-        padding:15px;
-        margin:10px 0;
-        text-align:center;
-      ">
+      <div class="offer">
         <img src="${o.picture}" style="width:80px;border-radius:10px;"><br>
         <h3>${o.name_short}</h3>
 
         <a href="${o.link}">
-          <button style="
-            width:100%;
-            max-width:220px;
-            background:#00cc66;
-            border:none;
-            padding:10px;
-            border-radius:8px;
-            color:white;
-            font-weight:bold;
-            cursor:pointer;
-          ">
-            Complete Offer
-          </button>
+          <button>Complete Offer</button>
         </a>
       </div>
     `;
