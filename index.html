@@ -4,100 +4,109 @@
   <title>Rewards Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin:0;
-      font-family:sans-serif;
-      color:white;
-      background: radial-gradient(circle at top,#111,#000);
-    }
+<style>
+  body {
+    margin:0;
+    font-family:sans-serif;
+    color:white;
+    background: radial-gradient(circle at top,#1a0033,#000);
+  }
 
-    .container {
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      padding:15px;
-    }
+  .container {
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:15px;
+  }
 
-    .box {
-      width:100%;
-      max-width:380px;
-      background:#0f0f0f;
-      padding:20px;
-      border-radius:16px;
-      box-shadow:0 0 25px rgba(0,255,150,0.15);
-      margin-top:15px;
-    }
+  .box {
+    width:100%;
+    max-width:380px;
+    background:linear-gradient(145deg,#140028,#0a001a);
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 0 25px rgba(255,0,200,0.3);
+    margin-top:15px;
+    border:1px solid rgba(0,255,255,0.2);
+  }
 
-    input, select {
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:10px;
-      margin-bottom:12px;
-      font-size:15px;
-      box-sizing:border-box;
-      background:#1a1a1a;
-      color:white;
-    }
+  input, select {
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:12px;
+    font-size:15px;
+    box-sizing:border-box;
+    background:#1f0033;
+    color:#fff;
+    outline:none;
+    box-shadow:0 0 10px rgba(0,255,255,0.2) inset;
+  }
 
-    button {
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:12px;
-      background:linear-gradient(90deg,#00cc66,#00ffcc);
-      color:black;
-      font-weight:bold;
-      font-size:16px;
-      cursor:pointer;
-      transition:0.2s;
-    }
+  button {
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,#00f7ff,#ff00cc);
+    color:white;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.25s;
+    box-shadow:0 0 15px rgba(255,0,200,0.4);
+  }
 
-    button:hover {
-      transform:scale(1.03);
-      opacity:0.9;
-    }
+  button:hover {
+    transform:scale(1.05);
+    box-shadow:0 0 25px rgba(0,255,255,0.6);
+  }
 
-    .offer {
-      background:#1a1a1a;
-      border-radius:12px;
-      padding:15px;
-      margin:12px 0;
-      text-align:center;
-      transition:0.2s;
-    }
+  .offer {
+    background:linear-gradient(145deg,#1a0033,#0d001f);
+    border-radius:12px;
+    padding:15px;
+    margin:12px 0;
+    text-align:center;
+    transition:0.25s;
+    border:1px solid rgba(255,0,200,0.2);
+  }
 
-    .offer:hover {
-      transform:translateY(-3px);
-      box-shadow:0 0 15px rgba(0,255,150,0.2);
-    }
+  .offer:hover {
+    transform:translateY(-5px) scale(1.02);
+    box-shadow:0 0 20px rgba(0,255,255,0.4);
+  }
 
-    .badge {
-      font-size:12px;
-      opacity:0.7;
-      margin:3px;
-    }
+  .badge {
+    font-size:12px;
+    margin:3px;
+    padding:4px 8px;
+    border-radius:6px;
+    background:linear-gradient(90deg,#00f7ff,#ff00cc);
+    color:black;
+    font-weight:bold;
+  }
 
-    .progress-wrap {
-      background:#222;
-      border-radius:10px;
-      margin-top:10px;
-      overflow:hidden;
-    }
+  .progress-wrap {
+    background:#220033;
+    border-radius:10px;
+    margin-top:10px;
+    overflow:hidden;
+  }
 
-    #bar {
-      width:0%;
-      background:#00ff99;
-      padding:6px 0;
-      text-align:right;
-      font-size:12px;
-      color:black;
-      font-weight:bold;
-    }
-
-  </style>
+  #bar {
+    width:0%;
+    background:linear-gradient(90deg,#00f7ff,#ff00cc);
+    padding:6px 0;
+    text-align:right;
+    font-size:12px;
+    color:black;
+    font-weight:bold;
+  }
+</style>
+  
 </head>
 
 <body>
