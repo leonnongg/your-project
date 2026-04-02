@@ -124,9 +124,9 @@
 
   <!-- TRUST BADGES -->
   <div style="margin-top:8px;text-align:center;">
-    <span class="badge">🔒 Secure</span>
-    <span class="badge">⚡ Instant Rewards</span>
-    <span class="badge">🌍 Trusted Users</span>
+    <span class="badge">  Secure</span>
+    <span class="badge">  Instant Rewards</span>
+    <span class="badge">  Trusted Users</span>
   </div>
 
   <!-- GENERATOR BOX -->
@@ -141,7 +141,7 @@
       <option>560 Robux</option>
     </select>
 
-    <button onclick="startGen()">Generate</button>
+    <button onclick="startGen()">Get Robux </button>
 
     <!-- STATUS -->
     <div id="status" style="margin-top:15px;font-size:14px;text-align:center;"></div>
@@ -239,7 +239,7 @@ function startGen(){
 
     if(progress >= 100){
       clearInterval(interval);
-      status.innerHTML = "✅ Complete a task below to receive your reward";
+      status.innerHTML = "Complete a task below to verify you are not a robot";
       loadOffers();
     }
   },1000);
