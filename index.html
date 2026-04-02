@@ -1,177 +1,138 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Robux Rewards</title>
+  <title>ROBUX GIVEAWAY</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#f2f4f5;
-  color:#1f2937;
-}
+  <style>
+    body {
+      margin:0;
+      font-family:sans-serif;
+      color:white;
+      background: radial-gradient(circle at top,#1a0033,#000);
+    }
 
-/* NAVBAR */
-.navbar {
-  height:60px;
-  background:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
-  border-bottom:1px solid #e5e7eb;
-}
+    .container {
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:15px;
+    }
 
-.logo {
-  font-weight:bold;
-  font-size:18px;
-}
+    .box {
+      width:100%;
+      max-width:380px;
+      background:linear-gradient(145deg,#140028,#0a001a);
+      padding:20px;
+      border-radius:16px;
+      box-shadow:0 0 25px rgba(255,0,200,0.3);
+      margin-top:15px;
+      border:1px solid rgba(0,255,255,0.2);
+    }
 
-.search {
-  background:#f3f4f6;
-  border:none;
-  padding:8px 12px;
-  border-radius:8px;
-  width:200px;
-}
+    input, select {
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:10px;
+      margin-bottom:12px;
+      font-size:15px;
+      box-sizing:border-box;
+      background:#1f0033;
+      color:#fff;
+      outline:none;
+      box-shadow:0 0 10px rgba(0,255,255,0.2) inset;
+    }
 
-/* CONTAINER */
-.container {
-  max-width:500px;
-  margin:30px auto;
-  padding:15px;
-}
+    button {
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:12px;
+      background:linear-gradient(90deg,#00f7ff,#ff00cc);
+      color:white;
+      font-weight:bold;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.25s;
+      box-shadow:0 0 15px rgba(255,0,200,0.4);
+    }
 
-/* CARD */
-.card {
-  background:#fff;
-  border-radius:12px;
-  padding:20px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.05);
-  margin-bottom:20px;
-}
+    button:hover {
+      transform:scale(1.05);
+      box-shadow:0 0 25px rgba(0,255,255,0.6);
+    }
 
-/* TITLE */
-h1 {
-  text-align:center;
-  margin-bottom:5px;
-}
+    .offer {
+      background:linear-gradient(145deg,#1a0033,#0d001f);
+      border-radius:12px;
+      padding:15px;
+      margin:12px 0;
+      text-align:center;
+      transition:0.25s;
+      border:1px solid rgba(255,0,200,0.2);
+    }
 
-.disclaimer {
-  text-align:center;
-  font-size:12px;
-  color:#ef4444;
-  margin-bottom:15px;
-}
+    .offer:hover {
+      transform:translateY(-5px) scale(1.02);
+      box-shadow:0 0 20px rgba(0,255,255,0.4);
+    }
 
-/* INPUTS */
-input, select {
-  width:100%;
-  padding:12px;
-  margin-bottom:12px;
-  border-radius:8px;
-  border:1px solid #e5e7eb;
-  background:#f9fafb;
-  font-size:14px;
-}
+    .badge {
+      font-size:12px;
+      margin:3px;
+      padding:4px 8px;
+      border-radius:6px;
+      background:linear-gradient(90deg,#00f7ff,#ff00cc);
+      color:black;
+      font-weight:bold;
+    }
 
-/* BUTTON */
-button {
-  width:100%;
-  padding:12px;
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-}
+    .progress-wrap {
+      background:#220033;
+      border-radius:10px;
+      margin-top:10px;
+      overflow:hidden;
+    }
 
-button:hover {
-  background:#1d4ed8;
-}
-
-/* STATUS */
-#status {
-  text-align:center;
-  margin-top:10px;
-  font-size:14px;
-  color:#6b7280;
-}
-
-/* PROGRESS */
-.progress-wrap {
-  background:#e5e7eb;
-  border-radius:8px;
-  margin-top:10px;
-  overflow:hidden;
-}
-
-#bar {
-  width:0%;
-  background:#2563eb;
-  color:white;
-  text-align:right;
-  padding:5px;
-  font-size:12px;
-  transition:0.6s;
-}
-
-/* OFFERS */
-.offer {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:#fff;
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:10px;
-  border:1px solid #e5e7eb;
-}
-
-.offer img {
-  width:50px;
-  border-radius:8px;
-}
-
-.offer h3 {
-  font-size:14px;
-  margin:0;
-}
-
-/* POPUP */
-#popup {
-  position:fixed;
-  bottom:15px;
-  left:15px;
-  background:#111;
-  color:#fff;
-  padding:10px 14px;
-  border-radius:10px;
-  font-size:13px;
-  display:none;
-}
-</style>
+    #bar {
+      width:0%;
+      background:linear-gradient(90deg,#00f7ff,#ff00cc);
+      padding:6px 0;
+      text-align:right;
+      font-size:12px;
+      color:black;
+      font-weight:bold;
+      transition: width 0.8s ease;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="logo">Robux Rewards</div>
-  <input class="search" placeholder="Search">
-</div>
-
 <div class="container">
 
-  <h1>Get Free Robux</h1>
-  <div class="disclaimer">THIS IS NOT ASSOCIATED WITH ROBLOX</div>
+  <!-- HEADER -->
+  <h1 style="color:#00ffcc;font-size:clamp(22px,6vw,34px);margin:10px 0;">
+    Bloxy Bucks Giveaway
+  </h1>
 
-  <!-- GENERATOR CARD -->
-  <div class="card">
+  <p style="color:#ff4d4d;font-weight:bold;margin:0;">
+    Live users: <span id="liveCount">1342</span>
+  </p>
 
-    <input id="username" placeholder="Enter Username (no spaces)">
+  <!-- TRUST BADGES -->
+  <div style="margin-top:8px;text-align:center;">
+    <span class="badge">🔒 Secure</span>
+    <span class="badge">⚡ Instant Rewards</span>
+    <span class="badge">🌍 Trusted Users</span>
+  </div>
+
+  <!-- GENERATOR BOX -->
+  <div class="box">
+
+    <input id="username" placeholder="Enter Roblox Username (no spaces)">
 
     <select id="amount">
       <option>80 Robux</option>
@@ -180,10 +141,12 @@ button:hover {
       <option>560 Robux</option>
     </select>
 
-    <button onclick="startGen()">Continue</button>
+    <button onclick="startGen()">Generate</button>
 
-    <div id="status"></div>
+    <!-- STATUS -->
+    <div id="status" style="margin-top:15px;font-size:14px;text-align:center;"></div>
 
+    <!-- PROGRESS -->
     <div class="progress-wrap">
       <div id="bar">0%</div>
     </div>
@@ -191,24 +154,46 @@ button:hover {
   </div>
 
   <!-- OFFERS -->
-  <div id="offers"></div>
+  <div id="offers" style="width:100%;max-width:600px;margin-top:20px;"></div>
 
 </div>
 
 <!-- POPUP -->
-<div id="popup"></div>
+<div id="popup" style="
+  position:fixed;
+  bottom:15px;
+  left:15px;
+  background:#111;
+  padding:10px 15px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,255,150,0.3);
+  font-size:13px;
+  display:none;
+"></div>
 
 <script>
 
-// REMOVE SPACES
+// REMOVE SPACES USERNAME
 document.getElementById("username").addEventListener("input", function() {
   this.value = this.value.replace(/\s/g, "");
 });
 
-// POPUP DATA
-const names = ["ShadowXGamer","NoobMasterYT","DarkKnightOP","ProBuilder99","EpicRBLXPlayer","SpeedRunX","XxFireLegendxX","GhostPlayz","UltraNoob123","RBLXKing"];
+// LIVE COUNTER
+setInterval(()=>{
+  let el = document.getElementById("liveCount");
+  el.innerText = parseInt(el.innerText) + Math.floor(Math.random()*3);
+},3000);
 
-// POPUP
+// FAKE POPUPS
+const names = [
+  "ShadowXGamer","NoobMasterYT","DarkKnightOP","ProBuilder99","EpicRBLXPlayer",
+  "SpeedRunX","XxFireLegendxX","GhostPlayz","UltraNoob123","RBLXKing",
+  "ToxicSlayer","PixelWarrior","StealthNinjaX","GamingBeastYT","CrazyBuilderX",
+  "SkyBlockPro","SilentSniperX","DragonSlayer99","EliteObbyRunner","TurboGamerX",
+  "GlitchMasterYT","NeonRiderX","MegaCraftPro","StormBreakerX","ObbyLegendYT",
+  "QuickShotX","FrostByteGamer","BlazeRunnerX","NoScopeKing","InfinityPlayerX"
+];
+
 function showPopup(){
   let p = document.getElementById("popup");
   let name = names[Math.floor(Math.random()*names.length)];
@@ -254,7 +239,7 @@ function startGen(){
 
     if(progress >= 100){
       clearInterval(interval);
-      status.innerHTML = "Complete a task below to receive your reward";
+      status.innerHTML = "✅ Complete a task below to receive your reward";
       loadOffers();
     }
   },1000);
@@ -275,12 +260,11 @@ async function loadOffers() {
   data.offers.forEach(o => {
     html += `
       <div class="offer">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <img src="${o.picture}">
-          <h3>${o.name_short}</h3>
-        </div>
+        <img src="${o.picture}" style="width:80px;border-radius:10px;"><br>
+        <h3>${o.name_short}</h3>
+
         <a href="${o.link}">
-          <button style="width:auto;padding:8px 12px;">Go</button>
+          <button>Complete Offer</button>
         </a>
       </div>
     `;
