@@ -129,7 +129,10 @@
     <button onclick="startGen()">Get Robux</button>
 
     <!-- avatar -->
-    <img id="avatar">
+    <div id="avatarWrap" style="text-align:center; margin-top:12px; display:none;">
+  <img id="avatar" style="width:80px; border-radius:12px;">
+  <div id="avatarName" style="margin-top:6px; font-size:14px; color:#00f7ff;"></div>
+</div> 
 
     <div id="status"></div>
 
@@ -190,18 +193,21 @@ function startGen(){
 
   let bar = document.getElementById("bar");
   let status = document.getElementById("status");
-  let avatar = document.getElementById("avatar");
+let avatarWrap = document.getElementById("avatarWrap");
+let avatar = document.getElementById("avatar");
+let avatarName = document.getElementById("avatarName");
 
-  status.innerText = "Verifying username...";
+status.innerText = "Verifying username...";
 
-  // fetch avatar FIRST
-  fetchAvatar(user).then(url => {
-    if(url){
-      avatar.src = url;
-      avatar.style.display = "block";
-    }
-  });
+// reset
+avatarWrap.style.display = "none";
 
+// fetch avatar
+fetchAvatar(user).then(url => {
+  avatar.src = url || "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-150x150-Png/0/0/AvatarHeadshot/Png/noFilter";
+  avatarName.innerText = user;
+  avatarWrap.style.display = "block";
+});
   let progress = 0;
 
   let interval = setInterval(()=>{
