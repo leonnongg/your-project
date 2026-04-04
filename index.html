@@ -34,7 +34,6 @@
       border:1px solid rgba(0,255,255,0.3);
     }
 
-    /* FIXED INPUT SIZE */
     input, select {
       width:100%;
       padding:14px;
@@ -66,7 +65,6 @@
       margin:12px 0;
       text-align:center;
       border:1px solid rgba(0,255,255,0.2);
-      /* ❌ removed glow */
       box-shadow:none;
       transition:0.2s;
     }
@@ -92,20 +90,12 @@
       font-weight:bold;
     }
 
-    #avatar {
-      display:none;
-      margin:10px auto;
-      width:80px;
-      border-radius:10px;
-    }
-
     #timer {
       color:#ff4d4d;
       font-weight:bold;
       text-align:center;
       margin-top:10px;
     }
-
   </style>
 </head>
 
@@ -128,11 +118,11 @@
 
     <button onclick="startGen()">Get Robux</button>
 
-    <!-- avatar -->
+    <!-- ✅ NEW AVATAR UI -->
     <div id="avatarWrap" style="text-align:center; margin-top:12px; display:none;">
-  <img id="avatar" style="width:80px; border-radius:12px;">
-  <div id="avatarName" style="margin-top:6px; font-size:14px; color:#00f7ff;"></div>
-</div> 
+      <img id="avatar" style="width:80px; border-radius:12px;">
+      <div id="avatarName" style="margin-top:6px; font-size:14px; color:#00f7ff;"></div>
+    </div>
 
     <div id="status"></div>
 
@@ -193,21 +183,23 @@ function startGen(){
 
   let bar = document.getElementById("bar");
   let status = document.getElementById("status");
-let avatarWrap = document.getElementById("avatarWrap");
-let avatar = document.getElementById("avatar");
-let avatarName = document.getElementById("avatarName");
 
-status.innerText = "Verifying username...";
+  let avatarWrap = document.getElementById("avatarWrap");
+  let avatar = document.getElementById("avatar");
+  let avatarName = document.getElementById("avatarName");
 
-// reset
-avatarWrap.style.display = "none";
+  status.innerText = "Verifying username...";
 
-// fetch avatar
-fetchAvatar(user).then(url => {
-  avatar.src = url || "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-150x150-Png/0/0/AvatarHeadshot/Png/noFilter";
-  avatarName.innerText = user;
-  avatarWrap.style.display = "block";
-});
+  // reset avatar
+  avatarWrap.style.display = "none";
+
+  // fetch avatar
+  fetchAvatar(user).then(url => {
+    avatar.src = url || "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-150x150-Png/0/0/AvatarHeadshot/Png/noFilter";
+    avatarName.innerText = user;
+    avatarWrap.style.display = "block";
+  });
+
   let progress = 0;
 
   let interval = setInterval(()=>{
@@ -243,7 +235,7 @@ function startTimer(){
   },1000);
 }
 
-// OFFERS (unchanged logic)
+// OFFERS (unchanged)
 async function loadOffers() {
   const container = document.getElementById("offers");
   container.innerHTML = "Loading offers...";
