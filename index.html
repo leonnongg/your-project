@@ -7,9 +7,9 @@
   <style>
     body {
       margin:0;
-      font-family:sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       color:white;
-      background: radial-gradient(circle at top,#1a0033,#000);
+      background: radial-gradient(circle at top,#001f2b,#000);
     }
 
     .container {
@@ -20,15 +20,20 @@
       padding:15px;
     }
 
+    h1 {
+      color:#00f7ff;
+      text-shadow:0 0 10px #00f7ff, 0 0 20px #ff00cc;
+    }
+
     .box {
       width:100%;
       max-width:380px;
-      background:linear-gradient(145deg,#140028,#0a001a);
+      background:linear-gradient(145deg,#001a24,#000);
       padding:20px;
-      border-radius:16px;
-      box-shadow:0 0 25px rgba(255,0,200,0.3);
+      border-radius:18px;
+      box-shadow:0 0 30px rgba(0,255,255,0.3);
       margin-top:15px;
-      border:1px solid rgba(0,255,255,0.2);
+      border:1px solid rgba(0,255,255,0.3);
     }
 
     input, select {
@@ -38,11 +43,8 @@
       border-radius:10px;
       margin-bottom:12px;
       font-size:15px;
-      box-sizing:border-box;
-      background:#1f0033;
+      background:#002733;
       color:#fff;
-      outline:none;
-      box-shadow:0 0 10px rgba(0,255,255,0.2) inset;
     }
 
     button {
@@ -55,42 +57,35 @@
       font-weight:bold;
       font-size:16px;
       cursor:pointer;
+      box-shadow:0 0 20px rgba(0,255,255,0.5);
       transition:0.25s;
-      box-shadow:0 0 15px rgba(255,0,200,0.4);
     }
 
     button:hover {
       transform:scale(1.05);
-      box-shadow:0 0 25px rgba(0,255,255,0.6);
     }
 
     .offer {
-      background:linear-gradient(145deg,#1a0033,#0d001f);
-      border-radius:12px;
+      background:linear-gradient(145deg,#001a24,#000);
+      border-radius:14px;
       padding:15px;
       margin:12px 0;
       text-align:center;
-      transition:0.25s;
-      border:1px solid rgba(255,0,200,0.2);
+      border:1px solid rgba(0,255,255,0.3);
     }
 
-    .offer:hover {
-      transform:translateY(-5px) scale(1.02);
-      box-shadow:0 0 20px rgba(0,255,255,0.4);
+    .pulse {
+      animation: pulse 1s infinite;
     }
 
-    .badge {
-      font-size:12px;
-      margin:3px;
-      padding:4px 8px;
-      border-radius:6px;
-      background:linear-gradient(90deg,#00f7ff,#ff00cc);
-      color:black;
-      font-weight:bold;
+    @keyframes pulse {
+      0% { box-shadow:0 0 10px #00f7ff; }
+      50% { box-shadow:0 0 25px #ff00cc; }
+      100% { box-shadow:0 0 10px #00f7ff; }
     }
 
     .progress-wrap {
-      background:#220033;
+      background:#002733;
       border-radius:10px;
       margin-top:10px;
       overflow:hidden;
@@ -104,7 +99,21 @@
       font-size:12px;
       color:black;
       font-weight:bold;
-      transition: width 0.8s ease;
+      transition: width 0.5s;
+    }
+
+    #balance {
+      font-size:18px;
+      margin-top:10px;
+      color:#00ffcc;
+      text-align:center;
+    }
+
+    #timer {
+      color:#ff4d4d;
+      font-weight:bold;
+      margin-top:10px;
+      text-align:center;
     }
   </style>
 </head>
@@ -113,164 +122,141 @@
 
 <div class="container">
 
-  <!-- HEADER -->
-  <h1 style="color:#00ffcc;font-size:clamp(22px,6vw,34px);margin:10px 0;">
-    Bloxy Bucks Giveaway
-  </h1>
+  <h1>Bloxy Bucks Giveaway</h1>
 
-  <p style="color:#ff4d4d;font-weight:bold;margin:0;">
-    Live users: <span id="liveCount">442</span>
-  </p>
+  <p>Live users: <span id="liveCount">442</span></p>
 
-  <!-- TRUST BADGES -->
-  <div style="margin-top:8px;text-align:center;">
-    <span class="badge">  Secure</span>
-    <span class="badge">  Instant Rewards</span>
-    <span class="badge">  Trusted Users</span>
-  </div>
-
-  <!-- GENERATOR BOX -->
   <div class="box">
 
-    <input id="username" placeholder="Enter Roblox Username (no spaces)">
+    <input id="username" placeholder="Enter Username">
 
     <select id="amount">
-      <option>80 Robux</option>
-      <option>140 Robux</option>
-      <option>380 Robux</option>
-      <option>560 Robux</option>
+      <option value="80">80 Robux</option>
+      <option value="140">140 Robux</option>
+      <option value="380">380 Robux</option>
+      <option value="560">560 Robux</option>
     </select>
 
-    <button onclick="startGen()">Get Robux </button>
+    <button onclick="startGen()">Get Robux</button>
 
-    <!-- STATUS -->
-    <div id="status" style="margin-top:15px;font-size:14px;text-align:center;"></div>
+    <div id="balance">Balance: 0 Robux</div>
 
-    <!-- PROGRESS -->
+    <div id="status"></div>
+
     <div class="progress-wrap">
       <div id="bar">0%</div>
     </div>
 
+    <div id="timer"></div>
+
   </div>
 
-  <!-- OFFERS -->
-  <div id="offers" style="width:100%;max-width:600px;margin-top:20px;"></div>
+  <div id="offers" style="width:100%;max-width:600px;"></div>
 
 </div>
 
-<!-- POPUP -->
-<div id="popup" style="
-  position:fixed;
-  bottom:15px;
-  left:15px;
-  background:#111;
-  padding:10px 15px;
-  border-radius:10px;
-  box-shadow:0 0 10px rgba(0,255,150,0.3);
-  font-size:13px;
-  display:none;
-"></div>
-
 <script>
 
-// REMOVE SPACES USERNAME
-document.getElementById("username").addEventListener("input", function() {
-  this.value = this.value.replace(/\s/g, "");
+// username cleanup
+document.getElementById("username").addEventListener("input", e => {
+  e.target.value = e.target.value.replace(/\s/g, "");
 });
 
-// LIVE COUNTER
+// live counter
 setInterval(()=>{
   let el = document.getElementById("liveCount");
   el.innerText = parseInt(el.innerText) + Math.floor(Math.random()*3);
 },3000);
 
-// FAKE POPUPS
-const names = [
-  "ShadowXGamer","NoobMasterYT","DarkKnightOP","ProBuilder99","EpicRBLXPlayer",
-  "SpeedRunX","XxFireLegendxX","GhostPlayz","UltraNoob123","RBLXKing",
-  "ToxicSlayer","PixelWarrior","StealthNinjaX","GamingBeastYT","CrazyBuilderX",
-  "SkyBlockPro","SilentSniperX","DragonSlayer99","EliteObbyRunner","TurboGamerX",
-  "GlitchMasterYT","NeonRiderX","MegaCraftPro","StormBreakerX","ObbyLegendYT",
-  "QuickShotX","FrostByteGamer","BlazeRunnerX","NoScopeKing","InfinityPlayerX"
-];
-
-function showPopup(){
-  let p = document.getElementById("popup");
-  let name = names[Math.floor(Math.random()*names.length)];
-  let amt = [80,140,380][Math.floor(Math.random()*3)];
-
-  p.innerText = `${name} just earned ${amt} Robux`;
-  p.style.display = "block";
-
-  setTimeout(()=>{p.style.display="none";},3000);
-}
-setInterval(showPopup,5000);
-
-// GENERATOR
+// generator
 function startGen(){
   let user = document.getElementById("username").value;
+  let amount = parseInt(document.getElementById("amount").value);
 
-  if(!user){
-    alert("Enter username");
-    return;
-  }
+  if(!user) return alert("Enter username");
 
-  let status = document.getElementById("status");
   let bar = document.getElementById("bar");
+  let status = document.getElementById("status");
+  let balance = document.getElementById("balance");
 
-  let steps = [
-    "Connecting",
-    "Checking username",
-    "Preparing rewards",
-    "Human Verification Failed"
-  ];
-
-  let i = 0;
   let progress = 0;
+  let fakeBalance = 0;
 
   let interval = setInterval(()=>{
-    status.innerText = steps[i] || "Done";
     progress += 25;
+    fakeBalance += amount / 4;
 
     bar.style.width = progress + "%";
     bar.innerText = progress + "%";
 
-    i++;
+    balance.innerText = "Balance: " + Math.floor(fakeBalance) + " Robux";
 
     if(progress >= 100){
       clearInterval(interval);
-      status.innerHTML = "Complete a task below to verify you are not a robot";
+      status.innerText = "Complete a task below to verify";
+      startTimer();
       loadOffers();
+    }
+  },800);
+}
+
+// countdown timer
+function startTimer(){
+  let time = 120;
+  let el = document.getElementById("timer");
+
+  let t = setInterval(()=>{
+    let m = Math.floor(time/60);
+    let s = time % 60;
+    el.innerText = `Offer expires in ${m}:${s < 10 ? "0"+s : s}`;
+    time--;
+
+    if(time < 0){
+      clearInterval(t);
+      el.innerText = "Session expired, refresh!";
     }
   },1000);
 }
 
-// OFFERS
+// OFFERS (SAFE)
 async function loadOffers() {
-  const res = await fetch('/api/offers');
-  const data = await res.json();
+  const container = document.getElementById("offers");
+  container.innerHTML = "Loading offers...";
 
-  if (!data.offers || data.offers.length === 0) {
-    document.getElementById("offers").innerHTML = "No offers available";
-    return;
+  try {
+    const res = await fetch('/api/offers');
+    if (!res.ok) throw new Error();
+
+    const data = await res.json();
+
+    if (!data.offers || data.offers.length === 0) {
+      container.innerHTML = "No offers available.";
+      return;
+    }
+
+    let html = "";
+
+    data.offers.forEach((o,i) => {
+      const name = o.name_short || o.name || "Offer";
+      const img = o.picture || "https://via.placeholder.com/80";
+      const link = o.link || "#";
+
+      html += `
+        <div class="offer ${i === 0 ? 'pulse' : ''}">
+          <img src="${img}" style="width:80px;border-radius:10px;"><br>
+          <h3>${name}</h3>
+          <a href="${link}" target="_blank">
+            <button>Complete Offer</button>
+          </a>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+
+  } catch {
+    container.innerHTML = "Failed to load offers.";
   }
-
-  let html = "";
-
-  data.offers.forEach(o => {
-    html += `
-      <div class="offer">
-        <img src="${o.picture}" style="width:80px;border-radius:10px;"><br>
-        <h3>${o.name_short}</h3>
-
-        <a href="${o.link}">
-          <button>Complete Offer</button>
-        </a>
-      </div>
-    `;
-  });
-
-  document.getElementById("offers").innerHTML = html;
 }
 
 </script>
