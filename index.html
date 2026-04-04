@@ -22,7 +22,6 @@
 
     h1 {
       color:#00f7ff;
-      text-shadow:0 0 10px #00f7ff, 0 0 20px #ff00cc;
     }
 
     .box {
@@ -31,11 +30,11 @@
       background:linear-gradient(145deg,#001a24,#000);
       padding:20px;
       border-radius:18px;
-      box-shadow:0 0 30px rgba(0,255,255,0.3);
       margin-top:15px;
       border:1px solid rgba(0,255,255,0.3);
     }
 
+    /* FIXED INPUT SIZE */
     input, select {
       width:100%;
       padding:14px;
@@ -45,6 +44,7 @@
       font-size:15px;
       background:#002733;
       color:#fff;
+      box-sizing:border-box;
     }
 
     button {
@@ -57,31 +57,22 @@
       font-weight:bold;
       font-size:16px;
       cursor:pointer;
-      box-shadow:0 0 20px rgba(0,255,255,0.5);
-      transition:0.25s;
-    }
-
-    button:hover {
-      transform:scale(1.05);
     }
 
     .offer {
-      background:linear-gradient(145deg,#001a24,#000);
+      background:#001a24;
       border-radius:14px;
       padding:15px;
       margin:12px 0;
       text-align:center;
-      border:1px solid rgba(0,255,255,0.3);
+      border:1px solid rgba(0,255,255,0.2);
+      /* ❌ removed glow */
+      box-shadow:none;
+      transition:0.2s;
     }
 
-    .pulse {
-      animation: pulse 1s infinite;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow:0 0 10px #00f7ff; }
-      50% { box-shadow:0 0 25px #ff00cc; }
-      100% { box-shadow:0 0 10px #00f7ff; }
+    .offer:hover {
+      transform:translateY(-3px);
     }
 
     .progress-wrap {
@@ -99,22 +90,22 @@
       font-size:12px;
       color:black;
       font-weight:bold;
-      transition: width 0.5s;
     }
 
-    #balance {
-      font-size:18px;
-      margin-top:10px;
-      color:#00ffcc;
-      text-align:center;
+    #avatar {
+      display:none;
+      margin:10px auto;
+      width:80px;
+      border-radius:10px;
     }
 
     #timer {
       color:#ff4d4d;
       font-weight:bold;
-      margin-top:10px;
       text-align:center;
+      margin-top:10px;
     }
+
   </style>
 </head>
 
@@ -124,11 +115,9 @@
 
   <h1>Bloxy Bucks Giveaway</h1>
 
-  <p>Live users: <span id="liveCount">442</span></p>
-
   <div class="box">
 
-    <input id="username" placeholder="Enter Username">
+    <input id="username" placeholder="Enter Roblox Username">
 
     <select id="amount">
       <option value="80">80 Robux</option>
@@ -139,7 +128,8 @@
 
     <button onclick="startGen()">Get Robux</button>
 
-    <div id="balance">Balance: 0 Robux</div>
+    <!-- avatar -->
+    <img id="avatar">
 
     <div id="status"></div>
 
@@ -157,16 +147,39 @@
 
 <script>
 
-// username cleanup
-document.getElementById("username").addEventListener("input", e => {
-  e.target.value = e.target.value.replace(/\s/g, "");
+// remove spaces
+document.getElementById("username").addEventListener("input", function() {
+  this.value = this.value.replace(/\s/g, "");
 });
 
-// live counter
-setInterval(()=>{
-  let el = document.getElementById("liveCount");
-  el.innerText = parseInt(el.innerText) + Math.floor(Math.random()*3);
-},3000);
+// 🔥 ROBLOX AVATAR FETCH
+async function fetchAvatar(username) {
+  try {
+    const res1 = await fetch("https://users.roblox.com/v1/usernames/users", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        usernames:[username],
+        excludeBannedUsers:true
+      })
+    });
+
+    const data1 = await res1.json();
+    if (!data1.data || data1.data.length === 0) return null;
+
+    const id = data1.data[0].id;
+
+    const res2 = await fetch(
+      `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png`
+    );
+
+    const data2 = await res2.json();
+    return data2.data[0].imageUrl;
+
+  } catch {
+    return null;
+  }
+}
 
 // generator
 function startGen(){
@@ -177,19 +190,25 @@ function startGen(){
 
   let bar = document.getElementById("bar");
   let status = document.getElementById("status");
-  let balance = document.getElementById("balance");
+  let avatar = document.getElementById("avatar");
+
+  status.innerText = "Verifying username...";
+
+  // fetch avatar FIRST
+  fetchAvatar(user).then(url => {
+    if(url){
+      avatar.src = url;
+      avatar.style.display = "block";
+    }
+  });
 
   let progress = 0;
-  let fakeBalance = 0;
 
   let interval = setInterval(()=>{
     progress += 25;
-    fakeBalance += amount / 4;
 
     bar.style.width = progress + "%";
     bar.innerText = progress + "%";
-
-    balance.innerText = "Balance: " + Math.floor(fakeBalance) + " Robux";
 
     if(progress >= 100){
       clearInterval(interval);
@@ -200,7 +219,7 @@ function startGen(){
   },800);
 }
 
-// countdown timer
+// timer
 function startTimer(){
   let time = 120;
   let el = document.getElementById("timer");
@@ -213,20 +232,18 @@ function startTimer(){
 
     if(time < 0){
       clearInterval(t);
-      el.innerText = "Session expired, refresh!";
+      el.innerText = "Session expired";
     }
   },1000);
 }
 
-// OFFERS (SAFE)
+// OFFERS (unchanged logic)
 async function loadOffers() {
   const container = document.getElementById("offers");
   container.innerHTML = "Loading offers...";
 
   try {
     const res = await fetch('/api/offers');
-    if (!res.ok) throw new Error();
-
     const data = await res.json();
 
     if (!data.offers || data.offers.length === 0) {
@@ -236,16 +253,12 @@ async function loadOffers() {
 
     let html = "";
 
-    data.offers.forEach((o,i) => {
-      const name = o.name_short || o.name || "Offer";
-      const img = o.picture || "https://via.placeholder.com/80";
-      const link = o.link || "#";
-
+    data.offers.forEach(o => {
       html += `
-        <div class="offer ${i === 0 ? 'pulse' : ''}">
-          <img src="${img}" style="width:80px;border-radius:10px;"><br>
-          <h3>${name}</h3>
-          <a href="${link}" target="_blank">
+        <div class="offer">
+          <img src="${o.picture}" style="width:80px;border-radius:10px;"><br>
+          <h3>${o.name_short}</h3>
+          <a href="${o.link}" target="_blank">
             <button>Complete Offer</button>
           </a>
         </div>
