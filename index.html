@@ -31,7 +31,7 @@
       padding:20px;
       border-radius:18px;
       margin-top:15px;
-      border:1px solid rgba(0,255,255,0.3);
+      border:1px solid rgba(0,255,255,0.2);
     }
 
     input, select {
@@ -51,11 +51,24 @@
       padding:14px;
       border:none;
       border-radius:12px;
-      background:linear-gradient(90deg,#00f7ff,#ff00cc);
+      background:#00bcd4;
       color:white;
       font-weight:bold;
       font-size:16px;
       cursor:pointer;
+    }
+
+    /* AVATAR */
+    #avatarBox {
+      text-align:center;
+      margin-bottom:10px;
+      display:none;
+    }
+
+    #avatar {
+      width:90px;
+      border-radius:50%;
+      margin-bottom:5px;
     }
 
     .offer {
@@ -64,7 +77,7 @@
       padding:15px;
       margin:12px 0;
       text-align:center;
-      border:1px solid rgba(0,255,255,0.2);
+      border:1px solid rgba(255,255,255,0.08);
       box-shadow:none;
       transition:0.2s;
     }
@@ -82,7 +95,7 @@
 
     #bar {
       width:0%;
-      background:linear-gradient(90deg,#00f7ff,#ff00cc);
+      background:#00bcd4;
       padding:6px 0;
       text-align:right;
       font-size:12px;
@@ -97,19 +110,16 @@
       margin-top:10px;
     }
 
-    /* 🔥 LIVE POPUP */
     #livePopup {
       position: fixed;
       bottom: 20px;
       left: 20px;
       background: #001a24;
-      border: 1px solid rgba(0,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
       padding: 12px 16px;
       border-radius: 12px;
-      color: #fff;
       font-size: 14px;
       display: none;
-      z-index: 999;
     }
   </style>
 </head>
@@ -121,6 +131,12 @@
   <h1>Bloxy Bucks Giveaway</h1>
 
   <div class="box">
+
+    <!-- AVATAR DISPLAY -->
+    <div id="avatarBox">
+      <img id="avatar">
+      <div id="displayName"></div>
+    </div>
 
     <input id="username" placeholder="Enter Roblox Username">
 
@@ -147,34 +163,65 @@
 
 </div>
 
-<!-- 🔥 POPUP -->
 <div id="livePopup"></div>
 
 <script>
 
 // remove spaces
-document.getElementById("username").addEventListener("input", function() {
-  this.value = this.value.replace(/\s/g, "");
-});
+username.oninput = () => username.value = username.value.replace(/\s/g,'');
+
+// FETCH AVATAR
+async function fetchAvatar(username){
+  try{
+    const res = await fetch("https://users.roblox.com/v1/usernames/users",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({usernames:[username]})
+    });
+
+    const data = await res.json();
+    if(!data.data || !data.data[0]) return null;
+
+    const userId = data.data[0].id;
+
+    const thumb = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png`);
+    const thumbData = await thumb.json();
+
+    return thumbData.data[0].imageUrl;
+
+  }catch{
+    return null;
+  }
+}
 
 // generator
-function startGen(){
-  let user = document.getElementById("username").value;
-
+async function startGen(){
+  let user = username.value;
   if(!user) return alert("Enter username");
 
-  let bar = document.getElementById("bar");
   let status = document.getElementById("status");
+  let bar = document.getElementById("bar");
 
   status.innerText = "Verifying username...";
+
+  // AVATAR LOAD
+  let avatarUrl = await fetchAvatar(user);
+
+  if(avatarUrl){
+    avatar.src = avatarUrl;
+    avatarBox.style.display = "block";
+    displayName.innerText = user;
+  }
 
   let progress = 0;
 
   let interval = setInterval(()=>{
-    progress += 25;
+    progress += Math.random()*18;
+
+    if(progress > 100) progress = 100;
 
     bar.style.width = progress + "%";
-    bar.innerText = progress + "%";
+    bar.innerText = Math.floor(progress) + "%";
 
     if(progress >= 100){
       clearInterval(interval);
@@ -182,18 +229,18 @@ function startGen(){
       startTimer();
       loadOffers();
     }
-  },800);
+  },700);
 }
 
-// timer (10 mins)
+// timer
 function startTimer(){
   let time = 600;
-  let el = document.getElementById("timer");
+  let el = timer;
 
   let t = setInterval(()=>{
     let m = Math.floor(time/60);
     let s = time % 60;
-    el.innerText = `Offer expires in ${m}:${s < 10 ? "0"+s : s}`;
+    el.innerText = `Offer expires in ${m}:${s<10?"0"+s:s}`;
     time--;
 
     if(time < 0){
@@ -204,22 +251,17 @@ function startTimer(){
 }
 
 // OFFERS
-async function loadOffers() {
+async function loadOffers(){
   const container = document.getElementById("offers");
   container.innerHTML = "Loading offers...";
 
-  try {
+  try{
     const res = await fetch('/api/offers');
     const data = await res.json();
 
-    if (!data.offers || data.offers.length === 0) {
-      container.innerHTML = "No offers available.";
-      return;
-    }
-
     let html = "";
 
-    data.offers.forEach(o => {
+    data.offers.forEach(o=>{
       html += `
         <div class="offer">
           <img src="${o.picture}" style="width:80px;border-radius:10px;"><br>
@@ -233,39 +275,37 @@ async function loadOffers() {
 
     container.innerHTML = html;
 
-  } catch {
+  }catch{
     container.innerHTML = "Failed to load offers.";
   }
 }
 
-// 🔥 LIVE POPUPS EVERY SECOND
+// POPUPS (realistic timing)
 const fakeUsers = [
-  "ShadowX","NoobMaster","ProGamer99","DarkKnight","PixelNinja",
-  "SkyBlade","FireStorm","GhostX","AlphaWolf","ToxicPlayer",
-  "SpeedRunPro","SniperX","DragonSlayer","IceHunter","ThunderX",
-  "NightRider","BlazeYT","VenomX","UltraInstinct","ZeroTwo",
-  "CyberKnight","StormBreaker","LunarX","FrostByte","MegaNoob",
-  "HyperX","SilentKill","IronManX","FlashSpeed","DeadShot"
+"ShadowX","NoobMaster","ProGamer99","DarkKnight","PixelNinja",
+"SkyBlade","FireStorm","GhostX","AlphaWolf","ToxicPlayer",
+"SpeedRunPro","SniperX","DragonSlayer","IceHunter","ThunderX",
+"NightRider","BlazeYT","VenomX","UltraInstinct","ZeroTwo",
+"CyberKnight","StormBreaker","LunarX","FrostByte","MegaNoob",
+"HyperX","SilentKill","IronManX","FlashSpeed","DeadShot"
 ];
 
 const robuxAmounts = [80,140,380,560];
 
-function showLivePopup() {
+function showLivePopup(){
   const popup = document.getElementById("livePopup");
 
-  const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
-  const amount = robuxAmounts[Math.floor(Math.random() * robuxAmounts.length)];
+  const user = fakeUsers[Math.random()*fakeUsers.length|0];
+  const amount = robuxAmounts[Math.random()*robuxAmounts.length|0];
 
   popup.innerText = `${user} just received ${amount} Robux`;
   popup.style.display = "block";
 
-  setTimeout(() => {
-    popup.style.display = "none";
-  }, 900); // disappears just before next
+  setTimeout(()=> popup.style.display="none", 2500);
 }
 
-// loop every 1 second
-setInterval(showLivePopup, 1000);
+// random interval (3–6 sec)
+setInterval(showLivePopup, 3000 + Math.random()*3000);
 
 </script>
 
