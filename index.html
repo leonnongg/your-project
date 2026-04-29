@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roblox Script Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     * {
@@ -13,33 +12,32 @@
 
     body {
       margin: 0;
-      background: linear-gradient(180deg, #f5fbff, #ffffff);
-      color: #172033;
+      background: #f4fbff;
+      color: #182333;
     }
 
     header {
-      padding: 35px 18px;
       text-align: center;
-      background: #eaf7ff;
-      border-bottom: 1px solid #d9efff;
+      padding: 35px 15px;
+      background: linear-gradient(135deg, #dff5ff, #ffffff);
+      border-bottom: 1px solid #d8eef8;
     }
 
     header h1 {
       margin: 0;
       font-size: 34px;
-      color: #0f5f8f;
+      color: #0b5f8a;
     }
 
     header p {
+      color: #5f6f7a;
       margin-top: 10px;
-      color: #526172;
-      font-size: 15px;
     }
 
     .container {
       max-width: 1050px;
       margin: 30px auto;
-      padding: 0 18px;
+      padding: 0 15px;
     }
 
     .games {
@@ -48,113 +46,111 @@
       gap: 18px;
     }
 
-    .game-card {
-      background: white;
+    .card {
+      background: #fff;
       border-radius: 18px;
       overflow: hidden;
       box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      border: 1px solid #e7f3fa;
       cursor: pointer;
-      transition: 0.25s;
-      border: 1px solid #eef5fb;
+      transition: 0.2s;
     }
 
-    .game-card:hover {
+    .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.12);
     }
 
-    .game-card img {
+    .card img {
       width: 100%;
       height: 135px;
       object-fit: cover;
-      background: #dff4ff;
+      background: #e6f6ff;
     }
 
-    .game-card div {
+    .card-content {
       padding: 16px;
     }
 
-    .game-card h3 {
+    .card h3 {
       margin: 0;
-      color: #12324a;
+      color: #17364a;
     }
 
-    .game-card p {
+    .card p {
       font-size: 13px;
-      color: #6a7580;
+      color: #6b7780;
     }
 
-    button, .offer-btn {
-      border: none;
-      background: #27a8ff;
-      color: white;
-      padding: 12px 18px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 10px;
-    }
-
-    button:hover, .offer-btn:hover {
-      background: #168fdc;
+    .panel {
+      background: #fff;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      border: 1px solid #e7f3fa;
     }
 
     .hidden {
       display: none;
     }
 
-    .panel {
-      background: white;
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-      border: 1px solid #eef5fb;
+    button, a.offerBtn {
+      background: #22a7f0;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    button:hover, a.offerBtn:hover {
+      background: #128fd3;
     }
 
     .back {
-      background: #eef6fb;
-      color: #234;
-      margin-bottom: 18px;
+      background: #edf7fc;
+      color: #17364a;
+      margin-bottom: 15px;
     }
 
-    .script-box {
-      background: #f3f8fc;
-      border: 1px solid #dcebf5;
-      padding: 15px;
-      border-radius: 14px;
-      white-space: pre-wrap;
-      color: #142535;
-      margin-top: 14px;
-    }
-
-    .offers {
-      display: grid;
-      gap: 14px;
+    #offers {
       margin-top: 18px;
     }
 
-    .offer {
+    .offerCard {
       display: flex;
-      gap: 14px;
       align-items: center;
-      padding: 14px;
+      gap: 15px;
+      background: #f7fcff;
+      border: 1px solid #e1f0f8;
       border-radius: 16px;
-      background: #f7fbff;
-      border: 1px solid #e4f1fb;
+      padding: 14px;
+      margin-bottom: 12px;
     }
 
-    .offer img {
-      width: 70px;
-      height: 70px;
+    .offerCard img {
+      width: 75px;
+      height: 75px;
       border-radius: 14px;
       object-fit: cover;
     }
 
-    .small {
-      color: #6b7680;
+    .scriptBox {
+      background: #f4f9fc;
+      border: 1px solid #dcecf5;
+      border-radius: 14px;
+      padding: 15px;
+      white-space: pre-wrap;
+      margin-top: 15px;
+      color: #152536;
+    }
+
+    .note {
       font-size: 13px;
+      color: #667985;
     }
   </style>
 </head>
@@ -163,38 +159,33 @@
 
 <header>
   <h1>Roblox Script Hub</h1>
-  <p>Select a game, complete a sponsor task, and unlock the script.</p>
+  <p>Select your game and complete verification to unlock the script.</p>
 </header>
 
 <div class="container">
 
-  <section id="home">
+  <div id="home">
     <div class="games" id="games"></div>
-  </section>
+  </div>
 
-  <section id="gamePage" class="hidden">
-    <button class="back" onclick="goHome()">← Back</button>
+  <div id="scriptPage" class="hidden">
+    <button class="back" onclick="goBack()">← Back</button>
 
     <div class="panel">
-      <h2 id="gameTitle"></h2>
-      <p class="small">Complete one sponsor task below to unlock this script.</p>
+      <h2 id="selectedTitle"></h2>
+      <p class="note">Complete one offer below to unlock this script.</p>
 
-      <button onclick="showOffers()">Unlock Script</button>
+      <div id="offers">Loading offers...</div>
 
-      <div id="offersArea" class="hidden">
-        <h3>Available Sponsor Tasks</h3>
-        <div id="offers" class="offers">Loading offers...</div>
-
-        <button onclick="unlockScript()">I completed the task</button>
-      </div>
+      <button onclick="unlockScript()">I completed verification</button>
 
       <div id="scriptArea" class="hidden">
         <h3>Your Script</h3>
-        <div class="script-box" id="scriptBox"></div>
+        <div class="scriptBox" id="scriptBox"></div>
         <button onclick="copyScript()">Copy Script</button>
       </div>
     </div>
-  </section>
+  </div>
 
 </div>
 
@@ -202,67 +193,65 @@
 const games = [
   {
     name: "Blox Fruits",
-    image: "https://games.gg/news/blox-fruits-roblox-codes-for-free-xp-boosts/",
-    script: `-- Add your allowed Blox Fruits script here`
+    image: "https://placehold.co/600x350/def3ff/176b91?text=Blox+Fruits",
+    script: "-- paste Blox Fruits script here"
   },
   {
     name: "Steal a Brainrot",
-    image: "https://www.bluestacks.com/blog/redeem-codes/steal-a-brainrot-redeem-codes-en.html",
-    script: `-- Add your allowed Steal a Brainrot script here`
+    image: "https://placehold.co/600x350/def3ff/176b91?text=Steal+a+Brainrot",
+    script: "-- paste Steal a Brainrot script here"
   },
   {
     name: "PLS DONATE",
-    image: "https://www.roblox.com/games/8737602449/PLS-DONATE",
-    script: `-- Add your allowed PLS DONATE script here`
+    image: "https://placehold.co/600x350/def3ff/176b91?text=PLS+DONATE",
+    script: "-- paste PLS DONATE script here"
   },
   {
     name: "Brookhaven RP",
-    image: "https://duniagames.co.id/discover/article/daftar-id-roblox-brookhaven-terbaru/en",
-    script: `-- Add your allowed Brookhaven RP script here`
+    image: "https://placehold.co/600x350/def3ff/176b91?text=Brookhaven+RP",
+    script: "-- paste Brookhaven RP script here"
   },
   {
     name: "Adopt Me",
-    image: "https://www.sportskeeda.com/roblox-news/adopt-me-birthday-magic-update-patch-notes",
-    script: `-- Add your allowed Adopt Me script here`
+    image: "https://placehold.co/600x350/def3ff/176b91?text=Adopt+Me",
+    script: "-- paste Adopt Me script here"
   }
 ];
 
 let selectedGame = null;
 
 function renderGames() {
-  const box = document.getElementById("games");
-  box.innerHTML = "";
+  let html = "";
 
   games.forEach((game, index) => {
-    box.innerHTML += `
-      <div class="game-card" onclick="openGame(${index})">
-        <img src="${game.image}" onerror="this.src='https://placehold.co/600x350?text=Roblox+Game'">
-        <div>
+    html += `
+      <div class="card" onclick="openGame(${index})">
+        <img src="${game.image}">
+        <div class="card-content">
           <h3>${game.name}</h3>
-          <p>Click to view and unlock the script.</p>
+          <p>Click to unlock script</p>
         </div>
       </div>
     `;
   });
+
+  document.getElementById("games").innerHTML = html;
 }
 
 function openGame(index) {
   selectedGame = games[index];
+
   document.getElementById("home").classList.add("hidden");
-  document.getElementById("gamePage").classList.remove("hidden");
-  document.getElementById("gameTitle").innerText = selectedGame.name + " Script";
-  document.getElementById("offersArea").classList.add("hidden");
+  document.getElementById("scriptPage").classList.remove("hidden");
+  document.getElementById("selectedTitle").innerText = selectedGame.name + " Script";
   document.getElementById("scriptArea").classList.add("hidden");
+
+  loadOffers();
 }
 
-function goHome() {
-  document.getElementById("gamePage").classList.add("hidden");
+function goBack() {
+  document.getElementById("scriptPage").classList.add("hidden");
   document.getElementById("home").classList.remove("hidden");
-}
-
-async function showOffers() {
-  document.getElementById("offersArea").classList.remove("hidden");
-  await loadOffers();
 }
 
 async function loadOffers() {
@@ -271,7 +260,7 @@ async function loadOffers() {
     const data = await res.json();
 
     if (!data.offers || data.offers.length === 0) {
-      document.getElementById("offers").innerText = "No offers available right now.";
+      document.getElementById("offers").innerText = "No offers available";
       return;
     }
 
@@ -279,11 +268,11 @@ async function loadOffers() {
 
     data.offers.forEach(o => {
       html += `
-        <div class="offer">
-          <img src="${o.picture}" onerror="this.src='https://placehold.co/100x100?text=Offer'">
+        <div class="offerCard">
+          <img src="${o.picture}" width="80"><br>
           <div>
-            <b>${o.name_short}</b><br>
-            <a class="offer-btn" href="${o.link}" target="_blank">Complete Task</a>
+            <p><b>${o.name_short}</b></p>
+            <a class="offerBtn" href="${o.link}" target="_blank">Complete Offer</a>
           </div>
         </div>
       `;
@@ -292,18 +281,18 @@ async function loadOffers() {
     document.getElementById("offers").innerHTML = html;
 
   } catch (e) {
-    document.getElementById("offers").innerText = "Error loading offers.";
+    document.getElementById("offers").innerText = "Error loading offers";
   }
 }
 
 function unlockScript() {
-  document.getElementById("scriptArea").classList.remove("hidden");
   document.getElementById("scriptBox").innerText = selectedGame.script;
+  document.getElementById("scriptArea").classList.remove("hidden");
 }
 
 function copyScript() {
   navigator.clipboard.writeText(selectedGame.script);
-  alert("Script copied!");
+  alert("Script copied");
 }
 
 renderGames();
