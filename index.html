@@ -1,312 +1,312 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>ROBUX GIVEAWAY</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roblox Script Hub</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
     body {
-      margin:0;
-      font-family: 'Segoe UI', sans-serif;
-      color:white;
-      background: radial-gradient(circle at top,#001f2b,#000);
+      margin: 0;
+      background: linear-gradient(180deg, #f5fbff, #ffffff);
+      color: #172033;
+    }
+
+    header {
+      padding: 35px 18px;
+      text-align: center;
+      background: #eaf7ff;
+      border-bottom: 1px solid #d9efff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 34px;
+      color: #0f5f8f;
+    }
+
+    header p {
+      margin-top: 10px;
+      color: #526172;
+      font-size: 15px;
     }
 
     .container {
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      padding:15px;
+      max-width: 1050px;
+      margin: 30px auto;
+      padding: 0 18px;
     }
 
-    h1 {
-      color:#00f7ff;
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
     }
 
-    .box {
-      width:100%;
-      max-width:380px;
-      background:linear-gradient(145deg,#001a24,#000);
-      padding:20px;
-      border-radius:18px;
-      margin-top:15px;
-      border:1px solid rgba(0,255,255,0.2);
+    .game-card {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: 0.25s;
+      border: 1px solid #eef5fb;
     }
 
-    input, select {
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:10px;
-      margin-bottom:12px;
-      font-size:15px;
-      background:#002733;
-      color:#fff;
-      box-sizing:border-box;
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.12);
     }
 
-    button {
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:12px;
-      background:#00bcd4;
-      color:white;
-      font-weight:bold;
-      font-size:16px;
-      cursor:pointer;
+    .game-card img {
+      width: 100%;
+      height: 135px;
+      object-fit: cover;
+      background: #dff4ff;
     }
 
-    /* AVATAR */
-    #avatarBox {
-      text-align:center;
-      margin-bottom:10px;
-      display:none;
+    .game-card div {
+      padding: 16px;
     }
 
-    #avatar {
-      width:90px;
-      border-radius:50%;
-      margin-bottom:5px;
+    .game-card h3 {
+      margin: 0;
+      color: #12324a;
+    }
+
+    .game-card p {
+      font-size: 13px;
+      color: #6a7580;
+    }
+
+    button, .offer-btn {
+      border: none;
+      background: #27a8ff;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    button:hover, .offer-btn:hover {
+      background: #168fdc;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      border: 1px solid #eef5fb;
+    }
+
+    .back {
+      background: #eef6fb;
+      color: #234;
+      margin-bottom: 18px;
+    }
+
+    .script-box {
+      background: #f3f8fc;
+      border: 1px solid #dcebf5;
+      padding: 15px;
+      border-radius: 14px;
+      white-space: pre-wrap;
+      color: #142535;
+      margin-top: 14px;
+    }
+
+    .offers {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
     }
 
     .offer {
-      background:#001a24;
-      border-radius:14px;
-      padding:15px;
-      margin:12px 0;
-      text-align:center;
-      border:1px solid rgba(255,255,255,0.08);
-      box-shadow:none;
-      transition:0.2s;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 16px;
+      background: #f7fbff;
+      border: 1px solid #e4f1fb;
     }
 
-    .offer:hover {
-      transform:translateY(-3px);
+    .offer img {
+      width: 70px;
+      height: 70px;
+      border-radius: 14px;
+      object-fit: cover;
     }
 
-    .progress-wrap {
-      background:#002733;
-      border-radius:10px;
-      margin-top:10px;
-      overflow:hidden;
-    }
-
-    #bar {
-      width:0%;
-      background:#00bcd4;
-      padding:6px 0;
-      text-align:right;
-      font-size:12px;
-      color:black;
-      font-weight:bold;
-    }
-
-    #timer {
-      color:#ff4d4d;
-      font-weight:bold;
-      text-align:center;
-      margin-top:10px;
-    }
-
-    #livePopup {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: #001a24;
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 14px;
-      display: none;
+    .small {
+      color: #6b7680;
+      font-size: 13px;
     }
   </style>
 </head>
 
 <body>
 
+<header>
+  <h1>Roblox Script Hub</h1>
+  <p>Select a game, complete a sponsor task, and unlock the script.</p>
+</header>
+
 <div class="container">
 
-  <h1>Bloxy Bucks Giveaway</h1>
+  <section id="home">
+    <div class="games" id="games"></div>
+  </section>
 
-  <div class="box">
+  <section id="gamePage" class="hidden">
+    <button class="back" onclick="goHome()">← Back</button>
 
-    <!-- AVATAR DISPLAY -->
-    <div id="avatarBox">
-      <img id="avatar">
-      <div id="displayName"></div>
+    <div class="panel">
+      <h2 id="gameTitle"></h2>
+      <p class="small">Complete one sponsor task below to unlock this script.</p>
+
+      <button onclick="showOffers()">Unlock Script</button>
+
+      <div id="offersArea" class="hidden">
+        <h3>Available Sponsor Tasks</h3>
+        <div id="offers" class="offers">Loading offers...</div>
+
+        <button onclick="unlockScript()">I completed the task</button>
+      </div>
+
+      <div id="scriptArea" class="hidden">
+        <h3>Your Script</h3>
+        <div class="script-box" id="scriptBox"></div>
+        <button onclick="copyScript()">Copy Script</button>
+      </div>
     </div>
-
-    <input id="username" placeholder="Enter Roblox Username">
-
-    <select id="amount">
-      <option value="80">80 Robux</option>
-      <option value="140">140 Robux</option>
-      <option value="380">380 Robux</option>
-      <option value="560">560 Robux</option>
-    </select>
-
-    <button onclick="startGen()">Get Robux</button>
-
-    <div id="status"></div>
-
-    <div class="progress-wrap">
-      <div id="bar">0%</div>
-    </div>
-
-    <div id="timer"></div>
-
-  </div>
-
-  <div id="offers" style="width:100%;max-width:600px;"></div>
+  </section>
 
 </div>
 
-<div id="livePopup"></div>
-
 <script>
-
-// remove spaces
-username.oninput = () => username.value = username.value.replace(/\s/g,'');
-
-// FETCH AVATAR
-async function fetchAvatar(username){
-  try{
-    const res = await fetch("https://users.roblox.com/v1/usernames/users",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({usernames:[username]})
-    });
-
-    const data = await res.json();
-    if(!data.data || !data.data[0]) return null;
-
-    const userId = data.data[0].id;
-
-    const thumb = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png`);
-    const thumbData = await thumb.json();
-
-    return thumbData.data[0].imageUrl;
-
-  }catch{
-    return null;
+const games = [
+  {
+    name: "Blox Fruits",
+    image: "https://games.gg/news/blox-fruits-roblox-codes-for-free-xp-boosts/",
+    script: `-- Add your allowed Blox Fruits script here`
+  },
+  {
+    name: "Steal a Brainrot",
+    image: "https://www.bluestacks.com/blog/redeem-codes/steal-a-brainrot-redeem-codes-en.html",
+    script: `-- Add your allowed Steal a Brainrot script here`
+  },
+  {
+    name: "PLS DONATE",
+    image: "https://www.roblox.com/games/8737602449/PLS-DONATE",
+    script: `-- Add your allowed PLS DONATE script here`
+  },
+  {
+    name: "Brookhaven RP",
+    image: "https://duniagames.co.id/discover/article/daftar-id-roblox-brookhaven-terbaru/en",
+    script: `-- Add your allowed Brookhaven RP script here`
+  },
+  {
+    name: "Adopt Me",
+    image: "https://www.sportskeeda.com/roblox-news/adopt-me-birthday-magic-update-patch-notes",
+    script: `-- Add your allowed Adopt Me script here`
   }
+];
+
+let selectedGame = null;
+
+function renderGames() {
+  const box = document.getElementById("games");
+  box.innerHTML = "";
+
+  games.forEach((game, index) => {
+    box.innerHTML += `
+      <div class="game-card" onclick="openGame(${index})">
+        <img src="${game.image}" onerror="this.src='https://placehold.co/600x350?text=Roblox+Game'">
+        <div>
+          <h3>${game.name}</h3>
+          <p>Click to view and unlock the script.</p>
+        </div>
+      </div>
+    `;
+  });
 }
 
-// generator
-async function startGen(){
-  let user = username.value;
-  if(!user) return alert("Enter username");
-
-  let status = document.getElementById("status");
-  let bar = document.getElementById("bar");
-
-  status.innerText = "Verifying username...";
-
-  // AVATAR LOAD
-  let avatarUrl = await fetchAvatar(user);
-
-  if(avatarUrl){
-    avatar.src = avatarUrl;
-    avatarBox.style.display = "block";
-    displayName.innerText = user;
-  }
-
-  let progress = 0;
-
-  let interval = setInterval(()=>{
-    progress += Math.random()*18;
-
-    if(progress > 100) progress = 100;
-
-    bar.style.width = progress + "%";
-    bar.innerText = Math.floor(progress) + "%";
-
-    if(progress >= 100){
-      clearInterval(interval);
-      status.innerText = "Complete a task below to verify";
-      startTimer();
-      loadOffers();
-    }
-  },700);
+function openGame(index) {
+  selectedGame = games[index];
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("gamePage").classList.remove("hidden");
+  document.getElementById("gameTitle").innerText = selectedGame.name + " Script";
+  document.getElementById("offersArea").classList.add("hidden");
+  document.getElementById("scriptArea").classList.add("hidden");
 }
 
-// timer
-function startTimer(){
-  let time = 600;
-  let el = timer;
-
-  let t = setInterval(()=>{
-    let m = Math.floor(time/60);
-    let s = time % 60;
-    el.innerText = `Offer expires in ${m}:${s<10?"0"+s:s}`;
-    time--;
-
-    if(time < 0){
-      clearInterval(t);
-      el.innerText = "Session expired";
-    }
-  },1000);
+function goHome() {
+  document.getElementById("gamePage").classList.add("hidden");
+  document.getElementById("home").classList.remove("hidden");
 }
 
-// OFFERS
-async function loadOffers(){
-  const container = document.getElementById("offers");
-  container.innerHTML = "Loading offers...";
+async function showOffers() {
+  document.getElementById("offersArea").classList.remove("hidden");
+  await loadOffers();
+}
 
-  try{
+async function loadOffers() {
+  try {
     const res = await fetch('/api/offers');
     const data = await res.json();
 
+    if (!data.offers || data.offers.length === 0) {
+      document.getElementById("offers").innerText = "No offers available right now.";
+      return;
+    }
+
     let html = "";
 
-    data.offers.forEach(o=>{
+    data.offers.forEach(o => {
       html += `
         <div class="offer">
-          <img src="${o.picture}" style="width:80px;border-radius:10px;"><br>
-          <h3>${o.name_short}</h3>
-          <a href="${o.link}" target="_blank">
-            <button>Complete Offer</button>
-          </a>
+          <img src="${o.picture}" onerror="this.src='https://placehold.co/100x100?text=Offer'">
+          <div>
+            <b>${o.name_short}</b><br>
+            <a class="offer-btn" href="${o.link}" target="_blank">Complete Task</a>
+          </div>
         </div>
       `;
     });
 
-    container.innerHTML = html;
+    document.getElementById("offers").innerHTML = html;
 
-  }catch{
-    container.innerHTML = "Failed to load offers.";
+  } catch (e) {
+    document.getElementById("offers").innerText = "Error loading offers.";
   }
 }
 
-// POPUPS (realistic timing)
-const fakeUsers = [
-"ShadowX","NoobMaster","ProGamer99","DarkKnight","PixelNinja",
-"SkyBlade","FireStorm","GhostX","AlphaWolf","ToxicPlayer",
-"SpeedRunPro","SniperX","DragonSlayer","IceHunter","ThunderX",
-"NightRider","BlazeYT","VenomX","UltraInstinct","ZeroTwo",
-"CyberKnight","StormBreaker","LunarX","FrostByte","MegaNoob",
-"HyperX","SilentKill","IronManX","FlashSpeed","DeadShot"
-];
-
-const robuxAmounts = [80,140,380,560];
-
-function showLivePopup(){
-  const popup = document.getElementById("livePopup");
-
-  const user = fakeUsers[Math.random()*fakeUsers.length|0];
-  const amount = robuxAmounts[Math.random()*robuxAmounts.length|0];
-
-  popup.innerText = `${user} just received ${amount} Robux`;
-  popup.style.display = "block";
-
-  setTimeout(()=> popup.style.display="none", 2500);
+function unlockScript() {
+  document.getElementById("scriptArea").classList.remove("hidden");
+  document.getElementById("scriptBox").innerText = selectedGame.script;
 }
 
-// random interval (3–6 sec)
-setInterval(showLivePopup, 3000 + Math.random()*3000);
+function copyScript() {
+  navigator.clipboard.writeText(selectedGame.script);
+  alert("Script copied!");
+}
 
+renderGames();
 </script>
 
 </body>
