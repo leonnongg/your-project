@@ -9,38 +9,38 @@
 
   <style>
 
-    body {
-      background: #0f172a;
-      color: white;
-      font-family: Arial;
-      padding: 20px;
-      margin: 0;
+    body{
+      background:#0f172a;
+      color:white;
+      font-family:Arial;
+      padding:20px;
+      margin:0;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
+    h1{
+      text-align:center;
+      margin-bottom:30px;
     }
 
-    .offer {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 20px;
+    .offer{
+      background:#1e293b;
+      padding:20px;
+      border-radius:12px;
+      margin-bottom:20px;
     }
 
-    .offer h2 {
-      margin-top: 0;
+    .offer h2{
+      margin-top:0;
     }
 
-    .btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 15px;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
+    .btn{
+      display:inline-block;
+      margin-top:15px;
+      padding:10px 15px;
+      background:#2563eb;
+      color:white;
+      text-decoration:none;
+      border-radius:8px;
     }
 
   </style>
@@ -55,31 +55,50 @@
 
   <script>
 
-    async function loadOffers() {
+    async function loadOffers(){
 
-      const res = await fetch('/api/offers');
+      try{
 
-      const offers = await res.json();
+        const res = await fetch('/api/offers');
 
-      const container = document.getElementById('offers');
+        const offers = await res.json();
 
-      offers.forEach(offer => {
+        const container =
+          document.getElementById('offers');
 
-        const div = document.createElement('div');
+        offers.forEach(offer => {
 
-        div.className = 'offer';
+          const div =
+            document.createElement('div');
 
-        div.innerHTML = `
-          <h2>${offer.anchor}</h2>
-          <p>Payout: ${offer.conversion}</p>
-          <a class="btn" href="${offer.url}" target="_blank">
-            Complete Offer
-          </a>
-        `;
+          div.className = 'offer';
 
-        container.appendChild(div);
+          div.innerHTML = `
+            <h2>${offer.anchor || 'Offer'}</h2>
 
-      });
+            <p>
+              Reward:
+              ${offer.conversion || 'N/A'}
+            </p>
+
+            <a
+              class="btn"
+              href="${offer.url}"
+              target="_blank"
+            >
+              Complete Offer
+            </a>
+          `;
+
+          container.appendChild(div);
+
+        });
+
+      }catch(err){
+
+        console.log(err);
+
+      }
 
     }
 
