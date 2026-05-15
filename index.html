@@ -1,302 +1,92 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Roblox Script Hub</title>
+
+  <title>Top CPA Offers</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
 
     body {
-      margin: 0;
-      background: #f4fbff;
-      color: #182333;
-    }
-
-    header {
-      text-align: center;
-      padding: 35px 15px;
-      background: linear-gradient(135deg, #dff5ff, #ffffff);
-      border-bottom: 1px solid #d8eef8;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 34px;
-      color: #0b5f8a;
-    }
-
-    header p {
-      color: #5f6f7a;
-      margin-top: 10px;
-    }
-
-    .container {
-      max-width: 1050px;
-      margin: 30px auto;
-      padding: 0 15px;
-    }
-
-    .games {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-      border: 1px solid #e7f3fa;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card img {
-      width: 100%;
-      height: 135px;
-      object-fit: cover;
-      background: #e6f6ff;
-    }
-
-    .card-content {
-      padding: 16px;
-    }
-
-    .card h3 {
-      margin: 0;
-      color: #17364a;
-    }
-
-    .card p {
-      font-size: 13px;
-      color: #6b7780;
-    }
-
-    .panel {
-      background: #fff;
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-      border: 1px solid #e7f3fa;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    button, a.offerBtn {
-      background: #22a7f0;
+      background: #0f172a;
       color: white;
-      border: none;
+      font-family: Arial;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .offer {
+      background: #1e293b;
+      padding: 20px;
       border-radius: 12px;
-      padding: 12px 18px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
+      margin-bottom: 20px;
+    }
+
+    .offer h2 {
+      margin-top: 0;
+    }
+
+    .btn {
       display: inline-block;
-      margin-top: 10px;
-    }
-
-    button:hover, a.offerBtn:hover {
-      background: #128fd3;
-    }
-
-    .back {
-      background: #edf7fc;
-      color: #17364a;
-      margin-bottom: 15px;
-    }
-
-    #offers {
-      margin-top: 18px;
-    }
-
-    .offerCard {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      background: #f7fcff;
-      border: 1px solid #e1f0f8;
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 12px;
-    }
-
-    .offerCard img {
-      width: 75px;
-      height: 75px;
-      border-radius: 14px;
-      object-fit: cover;
-    }
-
-    .scriptBox {
-      background: #f4f9fc;
-      border: 1px solid #dcecf5;
-      border-radius: 14px;
-      padding: 15px;
-      white-space: pre-wrap;
       margin-top: 15px;
-      color: #152536;
+      padding: 10px 15px;
+      background: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
     }
 
-    .note {
-      font-size: 13px;
-      color: #667985;
-    }
   </style>
+
 </head>
 
 <body>
 
-<header>
-  <h1>Roblox Script Hub</h1>
-  <p>Select your game and complete verification to unlock the script.</p>
-</header>
+  <h1>Highest Paying CPA Offers</h1>
 
-<div class="container">
+  <div id="offers"></div>
 
-  <div id="home">
-    <div class="games" id="games"></div>
-  </div>
+  <script>
 
-  <div id="scriptPage" class="hidden">
-    <button class="back" onclick="goBack()">← Back</button>
+    async function loadOffers() {
 
-    <div class="panel">
-      <h2 id="selectedTitle"></h2>
-      <p class="note">Complete one offer below to unlock this script.</p>
+      const res = await fetch('/api/offers');
 
-      <div id="offers">Loading offers...</div>
+      const offers = await res.json();
 
-      <button onclick="unlockScript()">I completed verification</button>
+      const container = document.getElementById('offers');
 
-      <div id="scriptArea" class="hidden">
-        <h3>Your Script</h3>
-        <div class="scriptBox" id="scriptBox"></div>
-        <button onclick="copyScript()">Copy Script</button>
-      </div>
-    </div>
-  </div>
+      offers.forEach(offer => {
 
-</div>
+        const div = document.createElement('div');
 
-<script>
-const games = [
-  {
-    name: "Blox Fruits",
-    image: "https://placehold.co/600x350/def3ff/176b91?text=Blox+Fruits",
-    script: "-- paste Blox Fruits script here"
-  },
-  {
-    name: "Steal a Brainrot",
-    image: "https://placehold.co/600x350/def3ff/176b91?text=Steal+a+Brainrot",
-    script: "-- paste Steal a Brainrot script here"
-  },
-  {
-    name: "PLS DONATE",
-    image: "https://placehold.co/600x350/def3ff/176b91?text=PLS+DONATE",
-    script: "-- paste PLS DONATE script here"
-  },
-  {
-    name: "Brookhaven RP",
-    image: "https://placehold.co/600x350/def3ff/176b91?text=Brookhaven+RP",
-    script: "-- paste Brookhaven RP script here"
-  },
-  {
-    name: "Adopt Me",
-    image: "https://placehold.co/600x350/def3ff/176b91?text=Adopt+Me",
-    script: "-- paste Adopt Me script here"
-  }
-];
+        div.className = 'offer';
 
-let selectedGame = null;
+        div.innerHTML = `
+          <h2>${offer.anchor}</h2>
+          <p>Payout: ${offer.conversion}</p>
+          <a class="btn" href="${offer.url}" target="_blank">
+            Complete Offer
+          </a>
+        `;
 
-function renderGames() {
-  let html = "";
+        container.appendChild(div);
 
-  games.forEach((game, index) => {
-    html += `
-      <div class="card" onclick="openGame(${index})">
-        <img src="${game.image}">
-        <div class="card-content">
-          <h3>${game.name}</h3>
-          <p>Click to unlock script</p>
-        </div>
-      </div>
-    `;
-  });
+      });
 
-  document.getElementById("games").innerHTML = html;
-}
-
-function openGame(index) {
-  selectedGame = games[index];
-
-  document.getElementById("home").classList.add("hidden");
-  document.getElementById("scriptPage").classList.remove("hidden");
-  document.getElementById("selectedTitle").innerText = selectedGame.name + " Script";
-  document.getElementById("scriptArea").classList.add("hidden");
-
-  loadOffers();
-}
-
-function goBack() {
-  document.getElementById("scriptPage").classList.add("hidden");
-  document.getElementById("home").classList.remove("hidden");
-}
-
-async function loadOffers() {
-  try {
-    const res = await fetch('/api/offers');
-    const data = await res.json();
-
-    if (!data.offers || data.offers.length === 0) {
-      document.getElementById("offers").innerText = "No offers available";
-      return;
     }
 
-    let html = "";
+    loadOffers();
 
-    data.offers.forEach(o => {
-      html += `
-        <div class="offerCard">
-          <img src="${o.picture}" width="80"><br>
-          <div>
-            <p><b>${o.name_short}</b></p>
-            <a class="offerBtn" href="${o.link}" target="_blank">Complete Offer</a>
-          </div>
-        </div>
-      `;
-    });
-
-    document.getElementById("offers").innerHTML = html;
-
-  } catch (e) {
-    document.getElementById("offers").innerText = "Error loading offers";
-  }
-}
-
-function unlockScript() {
-  document.getElementById("scriptBox").innerText = selectedGame.script;
-  document.getElementById("scriptArea").classList.remove("hidden");
-}
-
-function copyScript() {
-  navigator.clipboard.writeText(selectedGame.script);
-  alert("Script copied");
-}
-
-renderGames();
-</script>
+  </script>
 
 </body>
+
 </html>
