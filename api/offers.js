@@ -1,26 +1,25 @@
 module.exports = async (req, res) => {
+
   try {
 
+    // Get visitor IP + device
+    const ip =
+      req.headers['x-forwarded-for'] ||
+      req.socket.remoteAddress ||
+      '';
+
+    const userAgent =
+      req.headers['user-agent'] || '';
+
+    // Fetch region/device targeted offers
     const response = await fetch(
-      'https://de6jvomfbm0af.cloudfront.net/public/offers/feed.php?user_id=777591&api_key=fc3d56106a3668c1e98c'
+      `https://de6jvomfbm0af.cloudfront.net/public/offers/feed.php?user_id=777591&api_key=6357c879410a493e93f5247c85db72c3&ip=${encodeURIComponent(ip)}&user_agent=${encodeURIComponent(userAgent)}`
     );
 
     const offers = await response.json();
 
-    // Remove CPI/install offers
-    const filtered = offers.filter(offer => {
-      const text = JSON.stringify(offer).toLowerCase();
-
-      return (
-        !text.includes('install') &&
-        !text.includes('android') &&
-        !text.includes('ios') &&
-        !text.includes('app')
-      );
-    });
-
-    // Sort highest paying first
-    filtered.sort((a, b) => {
+    // Sort highest payout first
+    offers.sort((a, b) => {
 
       const payA =
         parseFloat(
@@ -35,10 +34,13 @@ module.exports = async (req, res) => {
         ) || 0;
 
       return payB - payA;
+
     });
 
-    // Send top 3
-    res.status(200).json(filtered.slice(0, 3));
+    // Always return at least 3 offers
+    res.status(200).json(
+      offers.slice(0, 3)
+    );
 
   } catch (err) {
 
@@ -49,4 +51,5 @@ module.exports = async (req, res) => {
     });
 
   }
+
 };
