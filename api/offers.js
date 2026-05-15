@@ -1,54 +1,52 @@
-export default async function handler(req, res) {
-  const API_KEY = "42656|PWYbKhc3H765iHPCbKR4Z4dT5ak1TigHQOc77MMa73812259";
-
+module.exports = async (req, res) => {
   try {
-    const ip = (req.headers['x-forwarded-for'] || '').split(',')[0] || '8.8.8.8';
-    const userAgent = req.headers['user-agent'];
 
-    async function getOffers(ctype) {
-      const url = `https://checkmyapp.site/api/v2?ip=${ip}&user_agent=${encodeURIComponent(userAgent)}&ctype=${ctype}`;
+    const response = await fetch(
+      'https://de6jvomfbm0af.cloudfront.net/public/offers/feed.php?user_id=777591&api_key=fc3d56106a3668c1e98c'
+    );
 
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${API_KEY}`,
-        },
-      });
+    const offers = await response.json();
 
-      const data = await response.json();
-      return data.success && data.offers ? data.offers : [];
-    }
+    // Remove CPI/install offers
+    const filtered = offers.filter(offer => {
+      const text = JSON.stringify(offer).toLowerCase();
 
-    // 1️⃣ CPI first
-    let offers = await getOffers(1);
+      return (
+        !text.includes('install') &&
+        !text.includes('android') &&
+        !text.includes('ios') &&
+        !text.includes('app')
+      );
+    });
 
-    // 2️⃣ fallback CPA
-    if (offers.length < 3) {
-      const extra = await getOffers(2);
-      offers = offers.concat(extra);
-    }
+    // Sort highest paying first
+    filtered.sort((a, b) => {
 
-    // ✅ 3️⃣ REMOVE DUPLICATES (by link)
-    const seen = new Set();
-    const unique = [];
+      const payA =
+        parseFloat(
+          String(a.conversion || '0')
+          .replace(/[^0-9.]/g, '')
+        ) || 0;
 
-    for (let o of offers) {
-      if (!seen.has(o.link)) {
-        seen.add(o.link);
-        unique.push(o);
-      }
-    }
+      const payB =
+        parseFloat(
+          String(b.conversion || '0')
+          .replace(/[^0-9.]/g, '')
+        ) || 0;
 
-    // 4️⃣ sort (same as before)
-    const sorted = unique
-      .map(o => ({ ...o, payout: parseFloat(o.payout) || 0 }))
-      .sort((a, b) => b.payout - a.payout);
+      return payB - payA;
+    });
 
-    // 5️⃣ top 3 (same as before)
-    const top = sorted.slice(0, 3);
-
-    res.status(200).json({ offers: top });
+    // Send top 3
+    res.status(200).json(filtered.slice(0, 3));
 
   } catch (err) {
-    res.status(500).json({ error: "Failed", details: err.message });
+
+    console.log(err);
+
+    res.status(500).json({
+      error: 'Failed to fetch offers'
+    });
+
   }
-}
+};
