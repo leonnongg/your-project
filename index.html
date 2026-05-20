@@ -518,37 +518,7 @@
 
       <h2 class="section-title">Available Scripts</h2>
 
-      <div class="scripts-grid">
-
-        <div class="script-card">
-          <img src="game1.jpg">
-
-          <div class="script-content">
-            <h3>gameone-script1</h3>
-
-            <p>Premium optimized beginner script with smooth functionality.</p>
-
-            <div class="tags">
-              <div class="tag">Popular</div>
-              <div class="tag">Beginner</div>
-              <div class="tag">Updated</div>
-            </div>
-
-            <div class="offers-wrapper" id="offers"></div>
-
-            <div class="code-box" id="codeBox">
-              <div class="code-header">
-                <span>Unlocked Script</span>
-                <button class="copy-btn" onclick="copyCode()">Copy</button>
-              </div>
-
-              <pre id="scriptCode">loadstring(game:HttpGet("https://example.com/script.lua"))()</pre>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
+      <div class="scripts-grid" id="scriptsGrid"></div>
 
     </div>
 
@@ -575,6 +545,41 @@
 
   <script>
 
+    const scriptsData = {
+
+      gameone:[
+        'gameone-script1',
+        'gameone-script2',
+        'gameone-script3'
+      ],
+
+      gametwo:[
+        'gametwo-script1',
+        'gametwo-script2'
+      ],
+
+      gamethree:[
+        'gamethree-script1',
+        'gamethree-script2'
+      ],
+
+      gamefour:[
+        'gamefour-script1',
+        'gamefour-script2'
+      ],
+
+      gamefive:[
+        'gamefive-script1',
+        'gamefive-script2'
+      ],
+
+      gamesix:[
+        'gamesix-script1',
+        'gamesix-script2'
+      ]
+
+    };
+
     function showToast(message){
 
       const toast = document.getElementById('toast');
@@ -588,13 +593,75 @@
 
     }
 
-    function copyCode(){
+    function copyCode(button){
 
-      const code = document.getElementById('scriptCode').innerText;
+      const code = button.parentElement.nextElementSibling.innerText;
 
       navigator.clipboard.writeText(code);
 
       showToast('Script copied successfully');
+
+    }
+
+    function renderScripts(gameName){
+
+      const grid = document.getElementById('scriptsGrid');
+
+      grid.innerHTML = '';
+
+      const scripts = scriptsData[gameName];
+
+      scripts.forEach(script => {
+
+        const card = document.createElement('div');
+
+        card.className = 'script-card';
+
+        card.innerHTML = `
+
+          <img src="${gameName.replace('game','game')}.jpg">
+
+          <div class="script-content">
+
+            <h3>${script}</h3>
+
+            <p>Premium optimized beginner-friendly script experience.</p>
+
+            <div class="tags">
+              <div class="tag">Popular</div>
+              <div class="tag">Updated</div>
+              <div class="tag">Beginner</div>
+            </div>
+
+            <div class="offers-wrapper"></div>
+
+            <div class="code-box">
+
+              <div class="code-header">
+                <span>Unlocked Script</span>
+                <button class="copy-btn" onclick="copyCode(this)">
+                  Copy
+                </button>
+              </div>
+
+              <pre>
+loadstring(game:HttpGet("https://example.com/script.lua"))()
+              </pre>
+
+            </div>
+
+          </div>
+
+        `;
+
+        grid.appendChild(card);
+
+      });
+
+      loadOffers();
+
+      document.querySelector('.scripts-section')
+        .scrollIntoView({behavior:'smooth'});
 
     }
 
@@ -606,98 +673,11 @@
 
         const offers = await res.json();
 
-        const container = document.getElementById('offers');
+        const wrappers = document.querySelectorAll('.offers-wrapper');
 
-        offers.forEach(offer => {
+        wrappers.forEach(wrapper => {
 
-          const div = document.createElement('div');
-
-          div.className = 'offer';
-
-          div.innerHTML = `
-
-            <h2>${offer.anchor || 'Offer'}</h2>
-
-            <p>
-              Reward:
-              ${offer.conversion || 'N/A'}
-            </p>
-
-            <a
-              class="btn unlock-btn"
-              href="${offer.url}"
-              target="_blank"
-            >
-              Unlock Script
-            </a>
-
-          `;
-
-          container.appendChild(div);
-
-        });
-
-        attachUnlockEvents();
-
-      }catch(err){
-
-        console.log(err);
-
-      }
-
-    }
-
-    function attachUnlockEvents(){
-
-      const buttons = document.querySelectorAll('.unlock-btn');
-
-      buttons.forEach(button => {
-
-        button.addEventListener('click', () => {
-
-          const overlay = document.getElementById('loaderOverlay');
-
-          overlay.style.display = 'flex';
-
-          showToast('Offer opened successfully');
-
-          setTimeout(()=>{
-
-            overlay.style.display = 'none';
-
-            document.getElementById('codeBox').style.display = 'block';
-
-            showToast('Script unlocked successfully');
-
-          },10000);
-
-        });
-
-      });
-
-    }
-
-    const searchInput = document.getElementById('searchInput');
-
-    searchInput.addEventListener('keyup', function(){
-
-      const value = this.value.toLowerCase();
-
-      const cards = document.querySelectorAll('.game-card');
-
-      cards.forEach(card => {
-
-        const text = card.innerText.toLowerCase();
-
-        card.style.display = text.includes(value)
-          ? 'block'
-          : 'none';
-
-      });
-
-    });
-
-    loadOffers();
+          wrapper.innerHTML = '';
 
   </script>
 
