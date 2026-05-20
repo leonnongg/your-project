@@ -1,59 +1,602 @@
+```html
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script Hub</title>
 
-  <title>Top CPA Offers</title>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
 
-    body{
-      background:#0f172a;
-      color:white;
-      font-family:Arial;
-      padding:20px;
+    *{
       margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
 
-    h1{
-      text-align:center;
-      margin-bottom:30px;
+    body{
+      font-family:'Inter',sans-serif;
+      background:#0b0f19;
+      color:white;
+      overflow-x:hidden;
     }
 
-    .offer{
-      background:#1e293b;
-      padding:20px;
+    html{
+      scroll-behavior:smooth;
+    }
+
+    ::-webkit-scrollbar{
+      width:8px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+      background:#2f3648;
+      border-radius:10px;
+    }
+
+    .background-glow{
+      position:fixed;
+      width:700px;
+      height:700px;
+      background:radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%);
+      top:-250px;
+      right:-200px;
+      z-index:-1;
+      animation:float 10s infinite ease-in-out;
+    }
+
+    @keyframes float{
+      0%{transform:translateY(0px)}
+      50%{transform:translateY(20px)}
+      100%{transform:translateY(0px)}
+    }
+
+    nav{
+      position:sticky;
+      top:0;
+      z-index:999;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px 40px;
+      backdrop-filter:blur(18px);
+      background:rgba(15,23,42,0.7);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo{
+      font-size:24px;
+      font-weight:700;
+      letter-spacing:0.5px;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:25px;
+      align-items:center;
+    }
+
+    .nav-links a{
+      color:#d1d5db;
+      text-decoration:none;
+      transition:0.3s;
+      font-size:14px;
+    }
+
+    .nav-links a:hover{
+      color:white;
+    }
+
+    .search-box input{
+      background:#111827;
+      border:1px solid rgba(255,255,255,0.08);
+      padding:10px 14px;
       border-radius:12px;
-      margin-bottom:20px;
+      color:white;
+      width:240px;
+      outline:none;
     }
 
-    .offer h2{
-      margin-top:0;
+    .hero{
+      padding:100px 20px 70px;
+      text-align:center;
+    }
+
+    .hero h1{
+      font-size:52px;
+      max-width:900px;
+      margin:auto;
+      line-height:1.1;
+      font-weight:700;
+    }
+
+    .hero p{
+      color:#9ca3af;
+      margin-top:20px;
+      font-size:18px;
+    }
+
+    .section-title{
+      font-size:28px;
+      margin-bottom:25px;
+      font-weight:700;
+    }
+
+    .container{
+      max-width:1350px;
+      margin:auto;
+      padding:30px;
+    }
+
+    .games-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:25px;
+    }
+
+    .game-card{
+      background:linear-gradient(180deg,#151b2d,#0f172a);
+      border-radius:22px;
+      overflow:hidden;
+      transition:0.35s ease;
+      border:1px solid rgba(255,255,255,0.06);
+      cursor:pointer;
+      position:relative;
+    }
+
+    .game-card:hover{
+      transform:translateY(-6px) scale(1.02);
+      box-shadow:0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .game-card img{
+      width:100%;
+      height:180px;
+      object-fit:cover;
+    }
+
+    .game-info{
+      padding:18px;
+    }
+
+    .game-info h3{
+      font-size:20px;
+      margin-bottom:8px;
+    }
+
+    .game-info p{
+      color:#9ca3af;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .badge{
+      position:absolute;
+      top:15px;
+      right:15px;
+      background:rgba(255,255,255,0.08);
+      backdrop-filter:blur(10px);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+    }
+
+    .scripts-section{
+      margin-top:90px;
+    }
+
+    .scripts-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:24px;
+    }
+
+    .script-card{
+      background:#111827;
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.06);
+      transition:0.3s;
+      position:relative;
+    }
+
+    .script-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 10px 35px rgba(0,0,0,0.35);
+    }
+
+    .script-card img{
+      width:100%;
+      height:180px;
+      object-fit:cover;
+    }
+
+    .script-content{
+      padding:20px;
+    }
+
+    .script-content h3{
+      margin-bottom:10px;
+    }
+
+    .script-content p{
+      color:#9ca3af;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .tags{
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+
+    .tag{
+      background:rgba(255,255,255,0.08);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:#d1d5db;
     }
 
     .btn{
-      display:inline-block;
-      margin-top:15px;
-      padding:10px 15px;
-      background:#2563eb;
-      color:white;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:18px;
+      width:100%;
+      padding:13px;
+      border-radius:14px;
       text-decoration:none;
-      border-radius:8px;
+      background:white;
+      color:#0b0f19;
+      font-weight:600;
+      transition:0.3s;
+    }
+
+    .btn:hover{
+      transform:scale(1.02);
+    }
+
+    .offers-wrapper{
+      margin-top:20px;
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+    }
+
+    .offer{
+      background:#0f172a;
+      padding:18px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.06);
+    }
+
+    .offer h2{
+      font-size:18px;
+      margin-bottom:8px;
+    }
+
+    .offer p{
+      color:#9ca3af;
+      margin-bottom:12px;
+    }
+
+    .loader-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(3,7,18,0.92);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      z-index:9999;
+      backdrop-filter:blur(12px);
+    }
+
+    .spinner{
+      width:70px;
+      height:70px;
+      border:5px solid rgba(255,255,255,0.1);
+      border-top-color:white;
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+      margin-bottom:25px;
+    }
+
+    @keyframes spin{
+      to{transform:rotate(360deg)}
+    }
+
+    .loader-overlay h2{
+      font-size:28px;
+      margin-bottom:10px;
+    }
+
+    .loader-overlay p{
+      color:#9ca3af;
+    }
+
+    .code-box{
+      margin-top:20px;
+      background:#020617;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.06);
+      display:none;
+      animation:fadeIn 0.5s ease;
+    }
+
+    .code-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:15px 20px;
+      border-bottom:1px solid rgba(255,255,255,0.05);
+      background:#0f172a;
+    }
+
+    .copy-btn{
+      background:white;
+      border:none;
+      padding:8px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    pre{
+      padding:20px;
+      overflow:auto;
+      color:#d1d5db;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    footer{
+      margin-top:100px;
+      padding:40px 20px;
+      text-align:center;
+      border-top:1px solid rgba(255,255,255,0.06);
+      color:#9ca3af;
+    }
+
+    .footer-links{
+      display:flex;
+      justify-content:center;
+      gap:25px;
+      margin-top:15px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links a{
+      color:#d1d5db;
+      text-decoration:none;
+    }
+
+    .toast{
+      position:fixed;
+      bottom:30px;
+      right:30px;
+      background:#111827;
+      border:1px solid rgba(255,255,255,0.08);
+      padding:15px 20px;
+      border-radius:14px;
+      display:none;
+      z-index:99999;
+      animation:fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn{
+      from{
+        opacity:0;
+        transform:translateY(10px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    @media(max-width:768px){
+
+      nav{
+        flex-direction:column;
+        gap:18px;
+        padding:20px;
+      }
+
+      .hero h1{
+        font-size:38px;
+      }
+
+      .search-box input{
+        width:100%;
+      }
+
+      .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
     }
 
   </style>
-
 </head>
-
 <body>
 
-  <h1>Highest Paying CPA Offers</h1>
+  <div class="background-glow"></div>
 
-  <div id="offers"></div>
+  <nav>
+    <div class="logo">Script Hub</div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search games...">
+    </div>
+
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#games">Games</a>
+      <a href="#popular">Popular</a>
+      <a href="#new">New Scripts</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Find Beginner-Friendly Roblox Game Scripts</h1>
+    <p>Discover clean, organized, and easy-to-access game scripts with a premium experience.</p>
+  </section>
+
+  <div class="container" id="games">
+
+    <h2 class="section-title">Popular Games</h2>
+
+    <div class="games-grid" id="gamesGrid">
+
+      <div class="game-card">
+        <span class="badge">3 Scripts</span>
+        <img src="game1.jpg">
+        <div class="game-info">
+          <h3>gameone</h3>
+          <p>Beginner-friendly guides and premium scripts.</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <span class="badge">4 Scripts</span>
+        <img src="game2.jpg">
+        <div class="game-info">
+          <h3>gametwo</h3>
+          <p>Popular Roblox utility scripts and tools.</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <span class="badge">2 Scripts</span>
+        <img src="game3.jpg">
+        <div class="game-info">
+          <h3>gamethree</h3>
+          <p>Updated beginner-friendly script collection.</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <span class="badge">5 Scripts</span>
+        <img src="game4.jpg">
+        <div class="game-info">
+          <h3>gamefour</h3>
+          <p>Popular automation and helper scripts.</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <span class="badge">3 Scripts</span>
+        <img src="game5.jpg">
+        <div class="game-info">
+          <h3>gamefive</h3>
+          <p>Premium beginner support scripts.</p>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <span class="badge">6 Scripts</span>
+        <img src="game6.jpg">
+        <div class="game-info">
+          <h3>gamesix</h3>
+          <p>Trending Roblox script resources.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="scripts-section">
+
+      <h2 class="section-title">Available Scripts</h2>
+
+      <div class="scripts-grid">
+
+        <div class="script-card">
+          <img src="game1.jpg">
+
+          <div class="script-content">
+            <h3>gameone-script1</h3>
+
+            <p>Premium optimized beginner script with smooth functionality.</p>
+
+            <div class="tags">
+              <div class="tag">Popular</div>
+              <div class="tag">Beginner</div>
+              <div class="tag">Updated</div>
+            </div>
+
+            <div class="offers-wrapper" id="offers"></div>
+
+            <div class="code-box" id="codeBox">
+              <div class="code-header">
+                <span>Unlocked Script</span>
+                <button class="copy-btn" onclick="copyCode()">Copy</button>
+              </div>
+
+              <pre id="scriptCode">loadstring(game:HttpGet("https://example.com/script.lua"))()</pre>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Script Hub. All rights reserved.</p>
+
+    <div class="footer-links">
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Contact</a>
+      <a href="#">Disclaimer</a>
+    </div>
+  </footer>
+
+  <div class="loader-overlay" id="loaderOverlay">
+    <div class="spinner"></div>
+    <h2>Verifying Access...</h2>
+    <p>Please wait while we verify your completion.</p>
+  </div>
+
+  <div class="toast" id="toast"></div>
 
   <script>
+
+    function showToast(message){
+
+      const toast = document.getElementById('toast');
+
+      toast.innerText = message;
+      toast.style.display = 'block';
+
+      setTimeout(()=>{
+        toast.style.display = 'none';
+      },3000);
+
+    }
+
+    function copyCode(){
+
+      const code = document.getElementById('scriptCode').innerText;
+
+      navigator.clipboard.writeText(code);
+
+      showToast('Script copied successfully');
+
+    }
 
     async function loadOffers(){
 
@@ -63,17 +606,16 @@
 
         const offers = await res.json();
 
-        const container =
-          document.getElementById('offers');
+        const container = document.getElementById('offers');
 
         offers.forEach(offer => {
 
-          const div =
-            document.createElement('div');
+          const div = document.createElement('div');
 
           div.className = 'offer';
 
           div.innerHTML = `
+
             <h2>${offer.anchor || 'Offer'}</h2>
 
             <p>
@@ -82,17 +624,20 @@
             </p>
 
             <a
-              class="btn"
+              class="btn unlock-btn"
               href="${offer.url}"
               target="_blank"
             >
-              Complete Offer
+              Unlock Script
             </a>
+
           `;
 
           container.appendChild(div);
 
         });
+
+        attachUnlockEvents();
 
       }catch(err){
 
@@ -102,10 +647,60 @@
 
     }
 
+    function attachUnlockEvents(){
+
+      const buttons = document.querySelectorAll('.unlock-btn');
+
+      buttons.forEach(button => {
+
+        button.addEventListener('click', () => {
+
+          const overlay = document.getElementById('loaderOverlay');
+
+          overlay.style.display = 'flex';
+
+          showToast('Offer opened successfully');
+
+          setTimeout(()=>{
+
+            overlay.style.display = 'none';
+
+            document.getElementById('codeBox').style.display = 'block';
+
+            showToast('Script unlocked successfully');
+
+          },10000);
+
+        });
+
+      });
+
+    }
+
+    const searchInput = document.getElementById('searchInput');
+
+    searchInput.addEventListener('keyup', function(){
+
+      const value = this.value.toLowerCase();
+
+      const cards = document.querySelectorAll('.game-card');
+
+      cards.forEach(card => {
+
+        const text = card.innerText.toLowerCase();
+
+        card.style.display = text.includes(value)
+          ? 'block'
+          : 'none';
+
+      });
+
+    });
+
     loadOffers();
 
   </script>
 
 </body>
-
 </html>
+```
